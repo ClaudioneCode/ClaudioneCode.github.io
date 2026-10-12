@@ -1,0 +1,2 @@
+# LolCompanion
+Progetto LoL Companion
