@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LoL Companion</title>
+  <meta name="description" content="Free Windows companion app for League of Legends players: profile stats, live game, leaderboards and performance analysis.">
+  <style>
+    :root { --bg: #07070d; --surface: rgba(255,255,255,.045); --border: rgba(255,255,255,.09); --text: #f1f1f7; --muted: #9a9ab3; --grad: linear-gradient(135deg, #7c5cff, #00e0ff); }
+    * { box-sizing: border-box; margin: 0; }
+    body { background: radial-gradient(circle at 20% 0%, #1d1640, var(--bg) 55%) fixed, var(--bg); color: var(--text); font: 16px/1.6 "Segoe UI", system-ui, sans-serif; padding: 0 16px; }
+    main { max-width: 1040px; margin: 0 auto; padding: 64px 0 40px; }
+    h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.05; letter-spacing: -.03em; }
+    h2 { font-size: 18px; margin-bottom: 6px; }
+    .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { color: var(--muted); font-size: 18px; max-width: 620px; margin: 18px 0 40px; }
+    .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 24px; }
+    .card p { color: var(--muted); font-size: 15px; }
+    .wide { grid-column: span 2; }
+    .full { grid-column: 1 / -1; }
+    footer { max-width: 1040px; margin: 0 auto; padding: 24px 0 48px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); }
+    a { color: #00e0ff; }
+    @media (max-width: 760px) { .bento { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>LoL <span class="grad">Companion</span></h1>
+    <p class="lead">A free Windows desktop companion for League of Legends players. Understand your performance and improve, in a clean and modern interface.</p>
+    <section class="bento">
+      <div class="card wide"><h2>My Profile</h2><p>Link your Riot ID (or let the app detect the account logged into the League client) to see ranked status, match history and performance metrics: damage per minute, CS per minute, kill participation, vision and champion mastery.</p></div>
+      <div class="card"><h2>Live game</h2><p>See who is in your current game: champions, summoner spells, keystone rune and rank. Only information already visible in the loading screen.</p></div>
+      <div class="card"><h2>Leaderboards</h2><p>Challenger, Grandmaster and Master ladders per region and queue.</p></div>
+      <div class="card"><h2>Match analysis</h2><p>Post-game review against your lane opponent with practical tips.</p></div>
+      <div class="card"><h2>Champions &amp; patches</h2><p>Champion browser, tier list and patch overview.</p></div>
+      <div class="card full" id="privacy"><h2>Privacy</h2><p>LoL Companion does not store match or profile data on any server. Data is requested from the Riot Games API only when you open a page. The only information saved is the Riot ID you choose to link, stored locally on your own PC. We do not sell or share any data. Contact: claudio.dilecce.lavoro@gmail.com</p></div>
+    </section>
+  </main>
+  <footer>LoL Companion isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</footer>
+</body>
+</html>
