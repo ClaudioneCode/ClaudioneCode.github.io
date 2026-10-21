@@ -3,26 +3,222 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Better Stomp</title>
-  <meta name="description" content="Free Windows companion app for League of Legends players: profile stats, champion builds, champion select help, in-game CS tracker, OBS overlay and post-game coaching.">
-  <link rel="stylesheet" href="../style.css">
+  <title>Better Stomp · Case study</title>
+  <meta name="description" content="Better Stomp, a free Windows companion app for League of Legends: Electron client, serverless backend on Cloudflare Workers and D1, and a live statistics pipeline.">
+  <meta name="theme-color" content="#0c0a08">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../home.css">
+  <link rel="stylesheet" href="bs.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../home.js" defer></script>
+  <script src="../code.js" defer></script>
+  <script src="../fx.js" defer></script>
+  <script src="bs.js" defer></script>
 </head>
 <body>
+  <header class="top">
+    <a class="name" href="../">← ClaudioneCode</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#architecture">Architecture</a><a href="#numbers">Numbers</a><a href="#stack">Stack</a>
+    </nav>
+  </header>
+
   <main>
-    <h1>Better <span class="grad">Stomp</span></h1>
-    <p class="lead">A free Windows desktop companion for League of Legends players. Understand your own performance and improve, in a clean and modern interface. Available in English and Italian.</p>
-    <section class="bento">
-      <div class="card wide"><h2>Profile</h2><p>Detects the account logged into the League client, or link any Riot ID. Ranked status, LP, your last 20 games, main roles, champion mastery, and performance metrics: damage per minute, CS per minute, kill participation and vision. A Premade tab shows the friends you queued with most.</p></div>
-      <div class="card"><h2>Match analysis</h2><p>Post-game review against your lane opponent: what went well first, then what to improve, with practical tips.</p></div>
-      <div class="card"><h2>Champions &amp; builds</h2><p>Champion pages with runes, starting items, core build and situational items, based on aggregated ranked games. Tier list and patch overview.</p></div>
-      <div class="card"><h2>Champion select</h2><p>Imports your chosen rune page and item set into the client with one click (only pages the app created, prefixed "BS:"). Suggests picks for your role by lane matchup or team composition. You always make the final choice.</p></div>
-      <div class="card"><h2>In-game overlay</h2><p>Your own CS per minute against a personal goal, and the team item-value difference while you hold Tab. It only uses the official Live Client Data API and information already visible in game. No memory reading, no enemy timers.</p></div>
-      <div class="card"><h2>Streaming</h2><p>A browser-source widget for OBS and Twitch with your rank, LP and session record.</p></div>
-      <div class="card wide"><h2>Coach AI</h2><p>Ask for an AI review of a finished game, or for a game plan when a match starts, based only on the champions shown in the loading screen. It does not follow or react to what happens during the match.</p></div>
-      <div class="card full"><h2>Free and Premium</h2><p>Every feature above is free. A future optional Premium subscription will add more Coach AI reviews, weekly progress reports and longer match history. No ads inside the League client or the game, and no betting or gambling features.</p></div>
+    <section class="bs-hero" aria-labelledby="bs-title">
+      <div class="bs-head">
+        <h1 id="bs-title" class="scramble" aria-label="Better Stomp"><span aria-hidden="true">Better Stomp</span><span class="caret" aria-hidden="true"></span></h1>
+        <p class="bs-lead">A free companion app for League of Legends, built end to end by one developer: an Electron client, a serverless backend on Cloudflare and a pipeline that turns live ranked games into statistics.</p>
+        <dl class="facts">
+          <div><dt>Role</dt><dd>Design, code, release</dd></div>
+          <div><dt>Platform</dt><dd>Windows, portable build</dd></div>
+          <div><dt>Core</dt><dd>Electron 38 · Workers · D1</dd></div>
+          <div><dt>Status</dt><dd>Released, free</dd></div>
+          <div class="go"><a class="btn" href="#architecture">See the architecture</a></div>
+        </dl>
+      </div>
+      <figure class="win tilt" data-ui>
+        <div class="bar"><i></i><i></i><i></i><span class="addr">Better Stomp.exe</span></div>
+        <img src="../img/better-stomp-build.webp" width="1400" height="880" alt="Better Stomp champion page with tier, win rate, runes and matchups">
+      </figure>
     </section>
-    <p class="links"><a href="../">← Portfolio</a> · <a href="privacy.html">Privacy policy</a> · <a href="terms.html">Terms of use</a> · Contact: <a href="mailto:claudio.dilecce.lavoro@gmail.com">claudio.dilecce.lavoro@gmail.com</a></p>
+
+    <section class="bs-what" aria-labelledby="what-h">
+      <h2 id="what-h" class="reveal">Six areas, one window</h2>
+      <p class="names" aria-label="Profile, champion builds, champion select, in-game overlay, streaming widget, AI coach">
+        <span>Profile</span> <span>·</span> <span>Champion builds</span> <span>·</span> <span>Champion select</span> <span>·</span> <span>In-game overlay</span> <span>·</span> <span>Streaming widget</span> <span>·</span> <span>AI coach</span>
+      </p>
+      <p class="what-note reveal">All of it reads only official Riot interfaces and information a player can already see. The interesting part is underneath.</p>
+    </section>
+
+    <section class="bs-arch" id="architecture" aria-labelledby="arch-h">
+      <div class="arch-head reveal">
+        <h2 id="arch-h">Architecture</h2>
+        <p>Three places, each doing only what it must: the player's PC, one small server on Cloudflare, and the external APIs behind it.</p>
+      </div>
+      <figure class="diagram reveal" aria-label="Architecture diagram: the Electron app talks to the League client and the Live Client Data API on the PC, and to a Cloudflare Worker over HTTPS; the Worker uses D1, KV, the Riot Games API and an AI provider.">
+        <svg class="d-wide" viewBox="0 0 1200 560" aria-hidden="true">
+          <rect class="zone" x="0" y="0" width="660" height="560" rx="14"/>
+          <text class="zone-t" x="28" y="40">Player's PC</text>
+          <rect class="zone" x="700" y="0" width="500" height="560" rx="14"/>
+          <text class="zone-t" x="728" y="40">Cloudflare</text>
+
+          <path id="e1" class="edge" d="M250 150 C 300 150, 290 230, 340 230"/>
+          <path id="e2" class="edge" d="M250 420 C 300 420, 290 340, 340 340"/>
+          <path id="e3" class="edge" d="M620 285 L 760 285"/>
+          <path id="e4" class="edge" d="M960 230 C 990 230, 980 120, 1010 120"/>
+          <path id="e5" class="edge" d="M960 280 L 1010 280"/>
+          <path id="e6" class="edge" d="M960 330 C 990 330, 980 440, 1010 440"/>
+          <path id="e7" class="edge" d="M860 360 L 860 430"/>
+
+          <g class="node n1"><rect x="40" y="110" width="210" height="80" rx="8"/><text x="60" y="145">League client</text><text class="sub" x="60" y="170">LCU · allow-listed calls</text></g>
+          <g class="node n2"><rect x="40" y="380" width="210" height="80" rx="8"/><text x="60" y="415">Live Client Data</text><text class="sub" x="60" y="440">port 2999 · read-only</text></g>
+          <g class="node n3 hub"><rect x="340" y="170" width="280" height="230" rx="10"/><text x="364" y="208">Better Stomp</text><text class="sub" x="364" y="234">Electron 38</text>
+            <rect class="lane" x="364" y="254" width="232" height="36" rx="6"/><text class="mono" x="380" y="277">main · IPC, local APIs</text>
+            <rect class="lane" x="364" y="298" width="232" height="36" rx="6"/><text class="mono" x="380" y="321">preload · narrow bridge</text>
+            <rect class="lane" x="364" y="342" width="232" height="36" rx="6"/><text class="mono" x="380" y="365">renderer · ES modules</text></g>
+          <g class="node n4 hub"><rect x="760" y="200" width="200" height="160" rx="10"/><text x="782" y="236">Worker</text><text class="mono" x="782" y="266">fetch /riot /ai</text><text class="mono" x="782" y="290">rate limits</text><text class="mono" x="782" y="314">cron · every min</text></g>
+          <g class="node n5"><rect x="1010" y="80" width="160" height="80" rx="8"/><text x="1030" y="115">D1</text><text class="sub" x="1030" y="140">aggregated stats</text></g>
+          <g class="node n6"><rect x="1010" y="240" width="160" height="80" rx="8"/><text x="1030" y="275">KV</text><text class="sub" x="1030" y="300">patch summaries</text></g>
+          <g class="node n7"><rect x="1010" y="400" width="160" height="80" rx="8"/><text x="1030" y="435">Riot Games API</text><text class="sub" x="1030" y="460">key stays server-side</text></g>
+          <g class="node n8"><rect x="760" y="430" width="200" height="80" rx="8"/><text x="782" y="465">AI provider</text><text class="sub" x="782" y="490">Groq or Claude</text></g>
+          <text class="lbl" x="640" y="270">HTTPS</text>
+
+          <g class="packets">
+            <circle r="4"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#e1"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="2.2s" begin=".8s" repeatCount="indefinite"><mpath href="#e2"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#e3"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.6s" begin=".8s" keyPoints="1;0" keyTimes="0;1" calcMode="linear" repeatCount="indefinite"><mpath href="#e3"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#e4"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.4s" begin=".4s" repeatCount="indefinite"><mpath href="#e5"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="2s" begin="1s" repeatCount="indefinite"><mpath href="#e6"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.5s" begin=".6s" repeatCount="indefinite"><mpath href="#e7"/></animateMotion></circle>
+          </g>
+        </svg>
+        <svg class="d-tall" viewBox="0 0 360 860" aria-hidden="true">
+          <rect class="zone" x="0" y="0" width="360" height="400" rx="12"/>
+          <text class="zone-t" x="18" y="32">Player's PC</text>
+          <rect class="zone" x="0" y="430" width="360" height="430" rx="12"/>
+          <text class="zone-t" x="18" y="462">Cloudflare</text>
+          <path id="t1" class="edge" d="M95 130 L 95 190"/>
+          <path id="t2" class="edge" d="M265 130 L 265 190"/>
+          <path id="t3" class="edge" d="M180 350 L 180 510"/>
+          <path id="t4" class="edge" d="M110 650 L 70 700"/>
+          <path id="t5" class="edge" d="M180 650 L 180 700"/>
+          <path id="t6" class="edge" d="M250 650 L 290 700"/>
+          <g class="node"><rect x="16" y="56" width="158" height="74" rx="8"/><text x="30" y="88">League client</text><text class="sub" x="30" y="112">LCU · allow-listed</text></g>
+          <g class="node"><rect x="186" y="56" width="158" height="74" rx="8"/><text x="200" y="88">Live data</text><text class="sub" x="200" y="112">port 2999 · read-only</text></g>
+          <g class="node hub"><rect x="40" y="190" width="280" height="160" rx="10"/><text x="60" y="224">Better Stomp</text><text class="mono" x="60" y="256">main · IPC, local APIs</text><text class="mono" x="60" y="282">preload · narrow bridge</text><text class="mono" x="60" y="308">renderer · ES modules</text><text class="sub" x="60" y="334">Electron 38</text></g>
+          <text class="lbl" x="192" y="440">HTTPS</text>
+          <g class="node hub"><rect x="60" y="510" width="240" height="140" rx="10"/><text x="80" y="544">Worker</text><text class="mono" x="80" y="574">fetch /riot /ai</text><text class="mono" x="80" y="600">rate limits</text><text class="mono" x="80" y="626">cron · every min</text></g>
+          <g class="node"><rect x="10" y="700" width="104" height="70" rx="8"/><text x="22" y="732">D1</text><text class="sub" x="22" y="754">stats</text></g>
+          <g class="node"><rect x="128" y="700" width="104" height="70" rx="8"/><text x="140" y="732">KV</text><text class="sub" x="140" y="754">summaries</text></g>
+          <g class="node"><rect x="246" y="700" width="104" height="70" rx="8"/><text x="258" y="732">Riot API</text><text class="sub" x="258" y="754">key on server</text></g>
+          <g class="node"><rect x="90" y="784" width="180" height="62" rx="8"/><text x="104" y="812">AI provider</text><text class="sub" x="104" y="834">Groq or Claude</text></g>
+          <g class="packets">
+            <circle r="4"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#t1"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.4s" begin=".7s" repeatCount="indefinite"><mpath href="#t2"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#t3"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.2s" repeatCount="indefinite"><mpath href="#t4"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.2s" begin=".4s" repeatCount="indefinite"><mpath href="#t5"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.2s" begin=".8s" repeatCount="indefinite"><mpath href="#t6"/></animateMotion></circle>
+          </g>
+        </svg>
+      </figure>
+      <div class="notes">
+        <div class="reveal"><h3>Local only where it must be</h3><p>The app talks to the League client through a short allow-list of endpoints and reads live game data from a read-only local port. No memory reading, no injected code, nothing the game does not already show.</p></div>
+        <div class="reveal"><h3>A narrow bridge</h3><p>The interface runs in a sandboxed renderer. It reaches the system only through a small preload API, so the UI never holds a credential or opens a socket of its own.</p></div>
+        <div class="reveal"><h3>One small server</h3><p>A Cloudflare Worker proxies the Riot Games API, so the key never ships inside the app. Requests are rate-limited per route, and patch summaries are cached in KV.</p></div>
+        <div class="reveal"><h3>Statistics on a budget</h3><p>A cron trigger fires every minute, pulls a few ranked games and folds them into D1. Each run fits in about 10 ms of CPU, so the whole pipeline lives on the free tier.</p></div>
+      </div>
+    </section>
+
+    <section class="bs-numbers" id="numbers" aria-labelledby="num-h">
+      <h2 id="num-h" class="reveal">By the numbers</h2>
+      <dl class="counts">
+        <div class="reveal"><dt>between two statistics runs</dt><dd><span data-count="1">1</span> min</dd></div>
+        <div class="reveal"><dt>CPU budget for each run</dt><dd><span data-count="10">10</span> ms</dd></div>
+        <div class="reveal"><dt>checks in the test suites</dt><dd><span data-count="184">184</span></dd></div>
+        <div class="reveal"><dt>lines of JavaScript, no framework</dt><dd><span data-count="3.2" data-dec="1">3.2</span>k</dd></div>
+        <div class="reveal"><dt>languages, English and Italian</dt><dd><span data-count="2">2</span></dd></div>
+        <div class="reveal"><dt>ads inside the client or the game</dt><dd><span data-count="0">0</span></dd></div>
+      </dl>
+    </section>
+
+    <section class="bs-code" aria-labelledby="code-h">
+      <div class="code-text">
+        <h2 id="code-h" class="reveal">The heart of the pipeline</h2>
+        <p class="reveal">Every minute the Worker reads a few finished ranked games. This function folds one of them into the running totals: games and wins per champion and role, and the lane opponent for matchup statistics. Remakes and short games are thrown away first.</p>
+        <p class="stack reveal">backend/stats.js · Cloudflare Workers · D1</p>
+      </div>
+      <figure class="code reveal" data-ui><figcaption>backend/stats.js</figcaption><pre><code data-lang="js">export function addMatch(agg, m) {
+  const { info } = m;
+  if (info.queueId !== 420 || info.gameDuration &lt; 300) return false;
+  agg.matches++;
+  for (const p of info.participants) {
+    if (!POSITIONS.has(p.teamPosition)) continue;
+    const r = (agg.roles[`${p.championId}|${p.teamPosition}`] ??= newRole());
+    const win = p.win ? 1 : 0;
+    r.g++; r.w += win;
+    // matchup: the enemy champion in the same lane
+    const opp = info.participants.find((q) =&gt; q.teamId !== p.teamId &amp;&amp; q.teamPosition === p.teamPosition);
+    if (opp) add(r.v, opp.championId);
+  }
+  return true;
+}</code></pre></figure>
+    </section>
+
+    <section class="bs-screens" aria-labelledby="screens-h">
+      <div class="hs-stage">
+        <h2 id="screens-h">Inside the app</h2>
+        <div class="hs-track">
+          <figure class="win" data-ui><div class="bar"><i></i><i></i><i></i><span class="addr">Champions</span></div><img src="../img/better-stomp-champions.webp" width="1400" height="880" alt="Champion grid with tier and win rate" loading="lazy"></figure>
+          <figure class="win" data-ui><div class="bar"><i></i><i></i><i></i><span class="addr">Tier list</span></div><img src="../img/better-stomp-tier-list.webp" width="1400" height="880" alt="Tier list ordered by win rate" loading="lazy"></figure>
+          <figure class="win" data-ui><div class="bar"><i></i><i></i><i></i><span class="addr">Champion select</span></div><img src="../img/better-stomp-pick.webp" width="1400" height="880" alt="Pick suggestions for the mid lane" loading="lazy"></figure>
+          <figure class="win" data-ui><div class="bar"><i></i><i></i><i></i><span class="addr">Champion page</span></div><img src="../img/better-stomp-build.webp" width="1400" height="880" alt="Champion page with runes and matchups" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="lineup" id="stack" aria-labelledby="stack-h">
+      <h2 id="stack-h" class="reveal">Stack</h2>
+      <table>
+        <tbody class="reveal">
+          <tr><th scope="row">Desktop</th><td>Electron 38</td><td>Vanilla JavaScript, ES modules</td><td>No framework</td></tr>
+          <tr><th scope="row">Backend</th><td>Cloudflare Workers</td><td>D1 (SQLite), KV, rate limiting</td><td>Cron every minute</td></tr>
+          <tr><th scope="row">Data</th><td>Riot Games API</td><td>League client (LCU), Live Client Data</td><td>Official only</td></tr>
+          <tr><th scope="row">AI</th><td>Groq or Claude</td><td>Provider chosen by config</td><td>Prompt on server</td></tr>
+          <tr><th scope="row">Shipping</th><td>electron-builder</td><td>Portable Windows build</td><td>Two languages</td></tr>
+          <tr><th scope="row">Quality</th><td>Node test suites</td><td>App, Worker and statistics</td><td>184 checks</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="bs-rules" aria-labelledby="rules-h">
+      <h2 id="rules-h" class="reveal">Rules it plays by</h2>
+      <ul>
+        <li class="reveal">Free, with no ads inside the League client or the game.</li>
+        <li class="reveal">Only official Riot interfaces, and only what a player can already see.</li>
+        <li class="reveal">Settings and linked accounts stay on the player's PC.</li>
+        <li class="reveal">No betting, no gambling, no tracking for advertising.</li>
+      </ul>
+      <p class="rules-links reveal"><a class="link" href="privacy.html">Privacy policy</a><a class="link" href="terms.html">Terms of use</a><a class="btn" href="mailto:claudio.dilecce.lavoro@gmail.com?subject=Better%20Stomp">Write to me</a></p>
+    </section>
   </main>
-  <footer>Better Stomp isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</footer>
+
+  <footer class="foot">
+    <div class="cols">
+      <ul><li>Better Stomp</li><li>Windows companion app</li><li>for League of Legends</li></ul>
+      <ul><li>Documents</li><li><a href="privacy.html">Privacy policy</a></li><li><a href="terms.html">Terms of use</a></li></ul>
+      <ul><li>Portfolio</li><li><a href="../">Home</a></li><li><a href="../#work">Under the hood</a></li><li><a href="../#contact">Contact</a></li></ul>
+      <ul><li>Elsewhere</li><li><a href="https://github.com/ClaudioneCode">GitHub</a></li><li><a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a></li><li><a href="mailto:claudio.dilecce.lavoro@gmail.com">Email</a></li></ul>
+    </div>
+    <svg class="wordmark" viewBox="0 0 1000 150" role="img" aria-label="Better Stomp"><text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs">Better Stomp</text></svg>
+    <p class="legal">Better Stomp isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+  </footer>
 </body>
 </html>

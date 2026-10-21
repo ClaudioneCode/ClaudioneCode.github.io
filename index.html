@@ -3,26 +3,266 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ClaudioneCode · Portfolio</title>
-  <meta name="description" content="Portfolio of ClaudioneCode: desktop apps, web projects and tools.">
-  <link rel="stylesheet" href="style.css">
+  <title>Claudio Di Lecce · Software developer</title>
+  <meta name="description" content="Claudio Di Lecce, software developer in Milan. Desktop apps, AI assistants and web platforms, from idea to release.">
+  <meta name="theme-color" content="#0c0a08">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="reel.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="home.js" defer></script>
+  <script src="code.js" defer></script>
+  <script src="shell.js" defer></script>
+  <script src="fx.js" defer></script>
+  <script src="reel.js" defer></script>
 </head>
 <body>
+  <header class="top">
+    <a class="name" href="#top">ClaudioneCode</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work">Code</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="reel" id="top" aria-label="Claudio Di Lecce and the products he has shipped">
+    <div class="stage">
+      <p class="ghost" aria-hidden="true"></p>
+      <div class="intro">
+        <h1 class="scramble" aria-label="Claudio Di Lecce"><span aria-hidden="true">Claudio Di Lecce</span><span class="caret" aria-hidden="true"></span></h1>
+        <div class="row">
+          <p>Software developer in Milan. More than ten years on web, mobile and desktop, and four products of my own. Scroll to open them.</p>
+          <div class="act">
+            <a class="btn" href="#work">See the code</a>
+            <a class="link" href="mailto:claudio.dilecce.lavoro@gmail.com">Email me</a>
+          </div>
+        </div>
+      </div>
+      <div class="screen" data-ui>
+        <div class="bar"><i></i><i></i><i></i><span class="addr">Better Stomp.exe</span></div>
+        <div class="view">
+          <div class="shot" data-addr="Better Stomp.exe"><img src="img/better-stomp-build.webp" alt="Better Stomp champion page with tier, win rate, runes and matchups"><img src="img/better-stomp-tier-list.webp" alt="Better Stomp tier list by win rate"><img src="img/better-stomp-pick.webp" alt="Better Stomp champion select helper"><img src="img/better-stomp-champions.webp" alt="Better Stomp champion grid"></div>
+          <div class="shot tall" data-addr="localhost:5178"><img src="img/reel-fieldbot.webp" alt="FieldBot website, from the WhatsApp chat to the features" loading="lazy"></div>
+          <div class="shot tall" data-addr="smartarchivista.it"><img src="img/reel-smartarchivista.webp" alt="SmartArchivista website, scrolling through the product page" loading="lazy"></div>
+          <div class="shot" data-addr="127.0.0.1:8765"><img src="img/tcg-profit-lab.webp" alt="TCG Profit Lab search form" loading="lazy"></div>
+        </div>
+      </div>
+      <div class="infos">
+        <article class="info" aria-labelledby="r-better-stomp">
+          <p class="kind">Windows desktop app</p>
+          <h2 id="r-better-stomp">Better Stomp</h2>
+          <p class="one">A companion for League of Legends players, from profile stats to an AI coach.</p>
+          <dl>
+            <div><dt>Stack</dt><dd>Electron · Cloudflare Workers · D1 · Riot API</dd></div>
+            <div><dt>Under the hood</dt><dd>Live statistics from real ranked games, aggregated every minute on a serverless backend.</dd></div>
+            <div><dt>Status</dt><dd>Released, free</dd></div>
+          </dl>
+          <a class="link" href="better-stomp/">Case study →</a>
+        </article>
+        <article class="info" aria-labelledby="r-fieldbot">
+          <p class="kind">SaaS for sports centres</p>
+          <h2 id="r-fieldbot">FieldBot</h2>
+          <p class="one">Customers book padel, football and tennis courts by chatting on WhatsApp.</p>
+          <dl>
+            <div><dt>Stack</dt><dd>.NET 10 · PostgreSQL · Claude API · WhatsApp Cloud API</dd></div>
+            <div><dt>Under the hood</dt><dd>Claude calls four typed booking tools; every argument is validated before the booking engine runs.</dd></div>
+            <div><dt>Status</dt><dd>In development</dd></div>
+          </dl>
+          <a class="link" href="#p-fieldbot">Under the hood ↓</a>
+        </article>
+        <article class="info" aria-labelledby="r-smartarchivista">
+          <p class="kind">Windows software and licensing</p>
+          <h2 id="r-smartarchivista">SmartArchivista</h2>
+          <p class="one">Files invoices, contracts and reports into the right folder by client, year and category.</p>
+          <dl>
+            <div><dt>Stack</dt><dd>PHP · MySQL · Stripe</dd></div>
+            <div><dt>Under the hood</dt><dd>Licence activation over signed requests, per-minute rate limits and Stripe subscriptions synced by webhook.</dd></div>
+            <div><dt>Status</dt><dd>Live</dd></div>
+          </dl>
+          <a class="link" href="https://www.smartarchivista.it/">smartarchivista.it →</a>
+        </article>
+        <article class="info" aria-labelledby="r-tcg-profit-lab">
+          <p class="kind">Local web tool</p>
+          <h2 id="r-tcg-profit-lab">TCG Profit Lab</h2>
+          <p class="one">Finds where trading cards cost least once shipping, duty and VAT are paid.</p>
+          <dl>
+            <div><dt>Stack</dt><dd>Python · JavaScript · eBay and Yahoo APIs</dd></div>
+            <div><dt>Under the hood</dt><dd>A zero-dependency Python server proxies the shop APIs; the browser runs a 10,000-draw simulation.</dd></div>
+            <div><dt>Status</dt><dd>Personal tool</dd></div>
+          </dl>
+          <a class="link" href="#p-tcg-profit-lab">Under the hood ↓</a>
+        </article>
+      </div>
+      <nav class="reel-nav" aria-label="Projects"><button type="button" data-go="0"><span>Better Stomp</span><i></i></button><button type="button" data-go="1"><span>FieldBot</span><i></i></button><button type="button" data-go="2"><span>SmartArchivista</span><i></i></button><button type="button" data-go="3"><span>TCG Profit Lab</span><i></i></button></nav>
+    </div>
+  </section>
+
   <main>
-    <!-- TODO: replace handle and bio with your own presentation -->
-    <h1>Claudione<span class="grad">Code</span></h1>
-    <p class="lead">Developer building desktop apps, web tools and small services. I like clean interfaces, real data and projects that people actually use.</p>
-    <section class="bento">
-      <a class="card wide project" href="better-stomp/">
-        <h2>Better Stomp</h2>
-        <p>A free Windows companion app for League of Legends players: profile stats, champion builds, champion select help, in-game CS overlay, OBS widget and AI post-game coaching.</p>
-        <p class="tags"><span>Electron</span><span>JavaScript</span><span>Cloudflare Workers</span><span>D1</span><span>Riot Games API</span><span>AI</span></p>
-      </a>
-      <div class="card"><h2>About</h2><p>Projects from idea to release: interface, backend, data collection and distribution.</p></div>
-      <!-- TODO: add more projects by copying the Better Stomp card -->
-      <div class="card full"><h2>Contact</h2><p><a href="https://github.com/ClaudioneCode">GitHub</a> · <a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a> ·<a href="mailto:claudio.dilecce.lavoro@gmail.com">claudio.dilecce.lavoro@gmail.com</a></p></div>
+    <section class="shell" id="shell" aria-labelledby="shell-h">
+      <div class="shell-text reveal">
+        <h2 id="shell-h">Or ask the shell</h2>
+        <p>A small terminal that knows my work. Type a command and press Enter, or tap one of these.</p>
+        <p class="cmds" data-ui><button type="button" data-cmd="whoami"><code>whoami</code></button><button type="button" data-cmd="projects"><code>projects</code></button><button type="button" data-cmd="stack"><code>stack</code></button><button type="button" data-cmd="contact"><code>contact</code></button><button type="button" data-cmd="sudo hire claudio"><code>sudo hire claudio</code></button></p>
+      </div>
+      <div class="term reveal" data-ui>
+        <div class="term-bar"><i></i><i></i><i></i><span>claudio@milan: ~</span></div>
+        <div class="term-out" role="log" aria-live="polite"><p>Type <b>help</b> to see what I can answer.</p></div>
+        <form class="term-in"><label for="term-cmd">$</label><input id="term-cmd" autocomplete="off" spellcheck="false" autocapitalize="off" aria-label="Command"></form>
+      </div>
+    </section>
+
+    <section class="work" id="work" aria-labelledby="work-h">
+      <div class="work-head reveal">
+        <h2 id="work-h">Under the hood</h2>
+        <p>The screens above show what each product does. Here is how it works: a piece of real source from every project, and the decision behind it.</p>
+      </div>
+
+      <article class="proj" id="p-better-stomp">
+        <div class="src"><figure class="code reveal" data-ui><figcaption>backend/stats.js</figcaption><pre><code data-lang="js">export function addMatch(agg, m) {
+  const { info } = m;
+  if (info.queueId !== 420 || info.gameDuration &lt; 300) return false;
+  agg.matches++;
+  for (const p of info.participants) {
+    if (!POSITIONS.has(p.teamPosition)) continue;
+    const r = (agg.roles[`${p.championId}|${p.teamPosition}`] ??= newRole());
+    const win = p.win ? 1 : 0;
+    r.g++; r.w += win;
+    // matchup: the enemy champion in the same lane
+    const opp = info.participants.find((q) =&gt; q.teamId !== p.teamId &amp;&amp; q.teamPosition === p.teamPosition);
+    if (opp) add(r.v, opp.championId);
+  }
+  return true;
+}</code></pre></figure></div>
+        <div class="cluster">
+          <h3 class="reveal">Better<br>Stomp</h3>
+          <p class="reveal">A Cloudflare cron runs every minute, pulls a handful of ranked Solo/Duo games from the Riot API and folds them into per-champion, per-role aggregates in D1. Each run has to fit in 10 ms of CPU, so every row is a small JSON blob rewritten only when touched.</p>
+          <p class="stack reveal">Electron · Cloudflare Workers · D1 · Riot API</p>
+          <div class="reveal"><a class="link" href="better-stomp/">Read the case study →</a></div>
+        </div>
+      </article>
+      <article class="proj" id="p-fieldbot">
+        <div class="src"><figure class="code reveal" data-ui><figcaption>FieldBot.AI/Booking/BookingTools.cs</figcaption><pre><code data-lang="cs">public Task&lt;ToolResult&gt; ExecuteAsync(
+    ToolContext context,
+    string name,
+    IReadOnlyDictionary&lt;string, JsonElement&gt; input,
+    CancellationToken cancellationToken = default) =&gt;
+    name switch
+    {
+        "get_availability" =&gt; GetAvailabilityAsync(context, input, cancellationToken),
+        "create_booking" =&gt; CreateBookingAsync(context, input, cancellationToken),
+        "list_my_bookings" =&gt; ListMyBookingsAsync(context, cancellationToken),
+        "cancel_booking" =&gt; CancelBookingAsync(context, input, cancellationToken),
+        _ =&gt; Task.FromResult(Error($"Unknown tool '{name}'."))
+    };</code></pre></figure></div>
+        <div class="cluster">
+          <h3 class="reveal">FieldBot</h3>
+          <p class="reveal">The model never touches the database. It calls four typed tools, and every argument it sends is parsed and validated before the booking engine runs. Domain, application, AI and API live in separate projects, one handler per feature.</p>
+          <p class="stack reveal">.NET 10 · EF Core · PostgreSQL · Claude API · Docker</p>
+          <div class="reveal"><span class="soon">In development</span></div>
+        </div>
+      </article>
+      <article class="proj" id="p-smartarchivista">
+        <div class="src"><figure class="code reveal" data-ui><figcaption>includes/functions.php</figcaption><pre><code data-lang="php">function verifyRateLimit(string $bucket, int $maxPerMinute): void
+{
+    $minute = date('Y-m-d H:i:00');
+    $stmt = db()-&gt;prepare('SELECT id, hit_count FROM rate_limits WHERE bucket = :bucket AND window_minute = :window_minute LIMIT 1');
+    $stmt-&gt;execute(['bucket' =&gt; $bucket, 'window_minute' =&gt; $minute]);
+    $row = $stmt-&gt;fetch();
+
+    if ((int)$row['hit_count'] &gt;= $maxPerMinute) {
+        jsonResponse(['success' =&gt; false, 'message' =&gt; 'Rate limit exceeded'], 429);
+    }
+}</code></pre></figure></div>
+        <div class="cluster">
+          <h3 class="reveal">Smart&shy;Archivista</h3>
+          <p class="reveal">The licensing server behind the desktop app: activations over HMAC-signed requests, a cap on active installations, per-minute rate limits kept in MySQL, and Stripe subscriptions kept in sync through verified webhooks.</p>
+          <p class="stack reveal">PHP · MySQL · Stripe</p>
+          <div class="reveal"><a class="link" href="https://www.smartarchivista.it/">smartarchivista.it →</a></div>
+        </div>
+      </article>
+      <article class="proj" id="p-tcg-profit-lab">
+        <div class="src"><figure class="code reveal" data-ui><figcaption>app.js</figcaption><pre><code data-lang="js">function profit({ cost, sale, feePct, fixed, ship, qty = 1, targetRoi = 0.3 }) {
+  const keep = 1 - feePct / 100;
+  const net = sale * keep - fixed - ship - cost;
+  const breakEven = keep &gt; 0 ? (cost + fixed + ship) / keep : Infinity;
+  return {
+    net, total: net * qty, roi: cost &gt; 0 ? net / cost : null,
+    breakEven, // lowest sale price that does not lose money
+    maxBuy: (sale * keep - fixed - ship) / (1 + targetRoi),
+    safety: sale &gt; 0 ? 1 - breakEven / sale : null,
+  };
+}</code></pre></figure></div>
+        <div class="cluster">
+          <h3 class="reveal">TCG Profit<br>Lab</h3>
+          <p class="reveal">A zero-dependency Python server bound to 127.0.0.1 proxies the eBay and Yahoo! Shopping APIs and daily exchange rates. The browser does the maths: landed cost, ROI, break-even price and a 10,000-run simulation of opening a box.</p>
+          <p class="stack reveal">Python · JavaScript · Frankfurter FX</p>
+          <div class="reveal"><span class="soon">Personal tool</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-h">
+      <div class="panel">
+        <h2 id="about-h" class="reveal">Ten years in,<br>still shipping.</h2>
+        <!-- shortcut: product screen stands in for a portrait; swap src for a photo of you when you have one -->
+        <img class="shape reveal" src="img/better-stomp-champions.webp" width="1400" height="880" alt="Better Stomp, the app I build in my own time" loading="lazy">
+        <div class="blocks">
+          <div class="reveal">
+            <h3>At SysDat</h3>
+            <p>Software developer at SysDat Spa in Milan, with more than ten years of web and mobile applications behind me: building them, and keeping them running for the people who depend on them.</p>
+          </div>
+          <div class="reveal">
+            <h3>On my own</h3>
+            <p>I take my own products from idea to release: interface, backend, data collection, payments and distribution. I like clean interfaces, real data and software that people actually use.</p>
+          </div>
+          <a class="btn reveal" href="https://www.linkedin.com/in/claudiodilecce/">Full profile on LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lineup" aria-labelledby="lineup-h">
+      <h2 id="lineup-h" class="reveal">Projects and tools</h2>
+      <table>
+        <tbody class="reveal">
+          <tr class="part"><th colspan="4" scope="colgroup">Products</th></tr>
+          <tr><th scope="row"><a href="better-stomp/">Better Stomp</a></th><td>Windows app</td><td>Electron, Cloudflare Workers, D1</td><td>Released</td></tr>
+          <tr><th scope="row"><a href="https://www.smartarchivista.it/">SmartArchivista</a></th><td>Desktop software and licensing</td><td>PHP, MySQL, Stripe</td><td>Live</td></tr>
+          <tr><th scope="row">FieldBot</th><td>AI booking on WhatsApp</td><td>.NET 10, PostgreSQL, Claude</td><td>In development</td></tr>
+          <tr><th scope="row">TCG Profit Lab</th><td>Local price tool</td><td>Python, JavaScript</td><td>Personal</td></tr>
+        </tbody>
+        <tbody class="reveal">
+          <tr class="part"><th colspan="4" scope="colgroup">Toolbox</th></tr>
+          <tr><th scope="row">Web</th><td>PHP, JavaScript</td><td>Laravel, React, Vue, WordPress</td><td></td></tr>
+          <tr><th scope="row">Mobile</th><td>Dart, JavaScript</td><td>Flutter, React Native</td><td></td></tr>
+          <tr><th scope="row">Desktop</th><td>JavaScript, C#</td><td>Electron, .NET</td><td></td></tr>
+          <tr><th scope="row">Backend and data</th><td>Node.js, C#, Python</td><td>MySQL, PostgreSQL, Firebase, D1</td><td></td></tr>
+          <tr><th scope="row">AI and services</th><td>Claude API</td><td>WhatsApp Cloud API, Riot API, Stripe</td><td></td></tr>
+          <tr><th scope="row">Shipping</th><td>Docker, Caddy</td><td>Cloudflare Workers, GitHub Pages</td><td></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h" class="reveal">Something to build, or a team that needs a developer? Write to me.</h2>
+      <a class="mail reveal" href="mailto:claudio.dilecce.lavoro@gmail.com">claudio.dilecce.lavoro@<wbr>gmail.com</a>
+      <p class="c-left">Milan, Italy</p>
+      <p class="c-right"><a href="https://github.com/ClaudioneCode">GitHub</a><a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a></p>
     </section>
   </main>
-  <footer>Better Stomp isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</footer>
+
+  <footer class="foot">
+    <div class="cols">
+      <ul><li>Claudio Di Lecce</li><li>Software developer</li><li>Milan, Italy</li></ul>
+      <ul><li>Work</li><li><a href="better-stomp/">Better Stomp</a></li><li><a href="https://www.smartarchivista.it/">SmartArchivista</a></li><li><a href="#p-fieldbot">FieldBot</a></li></ul>
+      <ul><li>Elsewhere</li><li><a href="https://github.com/ClaudioneCode">GitHub</a></li><li><a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a></li><li><a href="mailto:claudio.dilecce.lavoro@gmail.com">Email</a></li></ul>
+      <ul><li>Better Stomp</li><li><a href="better-stomp/privacy.html">Privacy policy</a></li><li><a href="better-stomp/terms.html">Terms of use</a></li></ul>
+    </div>
+    <svg class="wordmark" viewBox="0 0 1000 150" role="img" aria-label="ClaudioneCode"><text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs">ClaudioneCode</text></svg>
+    <p class="legal">Better Stomp isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+  </footer>
 </body>
 </html>

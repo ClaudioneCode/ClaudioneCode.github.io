@@ -1,0 +1,81 @@
+/* The opening scene: name, then one window per project, pinned while the page scrolls (reel.js) */
+.reel { position: relative; }
+.stage { position: relative; min-height: 100svh; overflow: hidden; --sw: min(56vw, calc((100svh - 230px) * 1.5)); }
+.js .stage { position: sticky; top: 0; height: 100svh; }
+
+.intro { position: absolute; z-index: 2; left: var(--m); right: var(--m); top: 17svh; will-change: transform, opacity; }
+.intro h1 { font-size: var(--step-display); line-height: .95; letter-spacing: -.045em; margin-left: -.05em; }
+.row { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-top: 28px; }
+.row p { max-width: 40ch; font-size: var(--step-lead); line-height: 1.35; }
+.act { display: flex; align-items: center; gap: 24px; flex: none; }
+.js .intro h1 { animation: rise .9s var(--ease) .2s both; }
+.js .intro .row { animation: rise .9s var(--ease) .4s both; }
+
+/* The window: a title bar with the product's address, the product inside */
+.screen { position: absolute; z-index: 1; left: var(--m); top: calc(50svh - (var(--sw) / 1.5909 + 38px) / 2 + 10px); width: var(--sw); background: #050403; border-radius: 10px; overflow: hidden; transform-origin: 50% 0; will-change: transform; }
+.bar { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; background: var(--surface); }
+.bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a352f; }
+.bar i:first-child { background: var(--accent); }
+.bar i:nth-child(2) { background: #6b655d; }
+.addr { margin: 0 auto; padding-right: 54px; font: 500 13px/1 "JetBrains Mono", ui-monospace, Consolas, monospace; color: var(--muted); } /* taste-skill-ignore */
+.view { position: relative; aspect-ratio: 1400 / 880; overflow: hidden; }
+.shot { position: absolute; inset: 0; overflow: hidden; background: #050403; }
+.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 0 0; will-change: transform, clip-path; }
+.shot.tall img { height: auto; }
+
+/* The project beside the window: one at a time, lines rising in turn */
+.infos { position: absolute; z-index: 2; right: var(--m); top: 50%; translate: 0 -50%; width: min(calc(100vw - var(--sw) - 3 * var(--m)), 440px); display: grid; }
+.info { grid-area: 1 / 1; align-self: center; }
+.info > * { opacity: 0; transform: translateY(26px); transition: opacity .45s var(--ease), transform .6s var(--ease); }
+.info.on > * { opacity: 1; transform: none; }
+.info.on > :nth-child(2) { transition-delay: .06s; } .info.on > :nth-child(3) { transition-delay: .12s; }
+.info.on > :nth-child(4) { transition-delay: .18s; } .info.on > :nth-child(5) { transition-delay: .24s; }
+.kind { color: var(--accent); font-weight: 500; font-size: var(--step-small); }
+.info h2 { font-size: clamp(2rem, 3.3vw, 3.5rem); line-height: 1; letter-spacing: -.04em; margin: 10px 0 16px; }
+.one { font-size: var(--step-lead); line-height: 1.3; margin-bottom: 26px; }
+.info dl { display: grid; gap: 14px; margin-bottom: 26px; }
+.info dt { color: var(--muted); font-size: var(--step-small); font-weight: 500; }
+.info dd { font-size: 1rem; line-height: 1.45; }
+
+/* Progress: one bar per project, filled by the scroll; a click jumps there */
+.reel-nav { position: absolute; z-index: 2; left: var(--m); right: var(--m); bottom: 26px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.reel-nav button { display: grid; gap: 10px; text-align: left; background: none; border: 0; color: var(--muted); font: 500 var(--step-small)/1 "Switzer", sans-serif; padding: 10px 0; cursor: pointer; transition: color .25s; }
+.reel-nav button:hover, .reel-nav button[aria-current] { color: var(--ink); }
+.reel-nav i { display: block; height: 3px; background: var(--surface); }
+.reel-nav i::after { content: ""; display: block; height: 100%; background: var(--accent); transform-origin: 0 0; transform: scaleX(var(--p, 0)); }
+.ghost { position: absolute; z-index: 0; left: var(--m); bottom: 64px; white-space: nowrap; font-size: 19vw; font-weight: 500; letter-spacing: -.05em; line-height: .8; color: #15120f; pointer-events: none; }
+
+/* Without the script, or with reduced motion: a plain stack of the four projects */
+html:not(.js) .stage, .reel.flat .stage { position: relative; height: auto; padding: 150px 0 40px; }
+html:not(.js) .stage > *, .reel.flat .stage > * { position: static; translate: none; width: auto; margin: 0 var(--m) 56px; }
+html:not(.js) .info > *, .reel.flat .info > * { opacity: 1; transform: none; }
+html:not(.js) .infos, .reel.flat .infos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 48px; }
+html:not(.js) .info, .reel.flat .info { grid-area: auto; }
+html:not(.js) .shot + .shot, .reel.flat .shot + .shot, html:not(.js) .reel-nav, .reel.flat .reel-nav, .reel.flat .ghost, html:not(.js) .ghost { display: none; }
+html:not(.js) .screen, .reel.flat .screen { max-width: 1100px; }
+
+@media (max-width: 900px) {
+  .stage { --sw: calc(100vw - 40px); }
+  .intro { left: 20px; right: 20px; top: 15svh; }
+  .intro h1 { font-size: 15vw; }
+  .row { flex-direction: column; align-items: start; gap: 24px; margin-top: 16px; }
+  .screen { left: 20px; top: 80px; border-radius: 8px; }
+  .bar { height: 30px; }
+  .infos { left: 20px; right: 20px; width: auto; top: calc(80px + var(--sw) / 1.5909 + 30px + 22px); translate: none; }
+  .info { align-self: start; }
+  .info h2 { font-size: 9vw; margin: 6px 0 10px; }
+  .one { font-size: 1.0625rem; margin-bottom: 14px; }
+  .info dl { gap: 8px; margin-bottom: 14px; }
+  .info dl div:nth-child(2) { display: none; }
+  .info dd { font-size: .9375rem; }
+  .reel-nav { left: 20px; right: 20px; bottom: 14px; gap: 8px; }
+  .reel-nav span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .reel-nav button { padding: 14px 0; }
+  .ghost { display: none; }
+}
+@media (max-width: 900px) and (max-height: 700px) {
+  .info dl { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .info > * { transition: none; }
+}

@@ -1,13 +1,15 @@
-:root { --bg: #07070d; --surface: rgba(255,255,255,.045); --border: rgba(255,255,255,.09); --text: #f1f1f7; --muted: #9a9ab3; --grad: linear-gradient(135deg, #7c5cff, #00e0ff); }
+@import url("https://api.fontshare.com/v2/css?f[]=switzer@400,500&display=swap");
+/* Same palette and face as the home page (home.css) */
+:root { --bg: #0c0a08; --surface: #181512; --border: #2a2520; --text: #ededed; --muted: #a39d95; --accent: #c9a45a; }
 * { box-sizing: border-box; margin: 0; }
-body { background: radial-gradient(circle at 20% 0%, #1d1640, var(--bg) 55%) fixed, var(--bg); color: var(--text); font: 16px/1.6 "Segoe UI", system-ui, sans-serif; padding: 0 16px; }
+body { background: var(--bg); color: var(--text); font: 17px/1.6 "Switzer", "Segoe UI", system-ui, sans-serif; letter-spacing: -.01em; padding: 0 16px; }
 main { max-width: 1040px; margin: 0 auto; padding: 64px 0 40px; }
-h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.05; letter-spacing: -.03em; }
-h2 { font-size: 18px; margin-bottom: 6px; }
-.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+h1 { font-size: clamp(40px, 7vw, 88px); font-weight: 400; line-height: 1; letter-spacing: -.045em; }
+h2 { font-size: 20px; font-weight: 500; letter-spacing: -.02em; margin-bottom: 6px; }
+.grad { color: inherit; }
 .lead { color: var(--muted); font-size: 18px; max-width: 620px; margin: 18px 0 40px; }
 .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 24px; }
+.card { background: var(--surface); padding: 28px; }
 .card p, .doc p, .doc li { color: var(--muted); font-size: 15px; }
 .wide { grid-column: span 2; }
 .full { grid-column: 1 / -1; }
@@ -18,9 +20,9 @@ h2 { font-size: 18px; margin-bottom: 6px; }
 .doc ul { padding-left: 20px; }
 .doc .date { color: var(--muted); font-size: 14px; }
 footer { max-width: 1040px; margin: 0 auto; padding: 24px 0 48px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); }
-a { color: #00e0ff; }
+a { color: var(--accent); }
 @media (max-width: 760px) { .bento { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
 a.project { color: inherit; text-decoration: none; transition: border-color .2s, transform .2s; }
-a.project:hover, a.project:focus-visible { border-color: #7c5cff; transform: translateY(-2px); }
+a.project:hover, a.project:focus-visible { transform: translateY(-2px); }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .tags span { font-size: 12px; color: var(--text); border: 1px solid var(--border); border-radius: 99px; padding: 2px 10px; }

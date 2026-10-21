@@ -1,0 +1,130 @@
+/* Better Stomp case study: builds on ../home.css (tokens, top bar, code, table, footer, entrances) */
+.kind { color: var(--accent); font-weight: 500; font-size: var(--step-small); }
+
+/* A window frame around app screens */
+.win { background: #050403; border-radius: 10px; overflow: hidden; }
+.win .bar { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; background: var(--surface); }
+.win .bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a352f; }
+.win .bar i:first-child { background: var(--accent); }
+.win .bar i:nth-child(2) { background: #6b655d; }
+.win .addr { margin: 0 auto; padding-right: 54px; font: 500 13px/1 "JetBrains Mono", ui-monospace, Consolas, monospace; color: var(--muted); } /* taste-skill-ignore */
+.win img { width: 100%; height: auto; }
+
+/* Hero: the name, what it is, four facts, then the app tilting up as the page scrolls */
+.bs-hero { padding: 150px var(--m) 0; }
+.bs-head { display: grid; grid-template-columns: 7fr 5fr; gap: 24px 56px; align-items: end; }
+.bs-head .kind { grid-column: 1 / -1; }
+.bs-head h1 { grid-column: 1 / -1; font-size: clamp(3.25rem, 11vw, 11rem); line-height: .9; letter-spacing: -.05em; margin-left: -.05em; }
+.bs-lead { font-size: var(--step-lead); line-height: 1.35; max-width: 34ch; }
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; }
+.facts dt, .counts dt { color: var(--muted); font-size: var(--step-small); font-weight: 500; }
+.facts dd { font-size: 1rem; }
+.facts .go { grid-column: 1 / -1; margin-top: 8px; }
+.js .bs-head > * { animation: rise .9s var(--ease) both; }
+.js .bs-head > :nth-child(2) { animation-delay: .1s; } .js .bs-head > :nth-child(3) { animation-delay: .25s; } .js .bs-head > :nth-child(4) { animation-delay: .35s; }
+.tilt { margin: 72px auto 0; max-width: 1180px; transform-origin: 50% 0; will-change: transform; }
+
+/* What it covers: names only, lit one by one by the scroll */
+.bs-what { padding: 200px var(--m) 0; }
+.bs-what h2, .arch-head h2, .bs-numbers h2, .bs-screens h2, .bs-rules h2, .code-text h2 { font-size: var(--step-head); }
+.names { margin: 40px 0 32px; font-size: clamp(2rem, 5.4vw, 5rem); line-height: 1.08; letter-spacing: -.04em; }
+.names span { color: #6f685f; transition: color .4s var(--ease); }
+.names span.lit { color: var(--ink); }
+.names span.lit:nth-child(even) { color: var(--accent); }
+html:not(.js) .names span { color: var(--ink); }
+.what-note { max-width: 52ch; font-size: var(--step-lead); line-height: 1.35; }
+
+/* Architecture: a diagram with data moving along its edges, then four notes */
+.bs-arch { padding: 200px var(--m) 0; }
+.arch-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px; }
+.arch-head p { max-width: 46ch; justify-self: end; }
+.diagram svg { width: 100%; height: auto; font-family: "Switzer", sans-serif; }
+.d-tall { display: none; }
+.zone { fill: #110e0c; }
+.zone-t { fill: var(--muted); font-size: 15px; font-weight: 500; }
+.node rect { fill: var(--surface); }
+.node.hub > rect:first-child { fill: #221d18; }
+.node .lane { fill: #2b251f; }
+.node text { fill: var(--ink); font-size: 17px; font-weight: 500; }
+.node .sub { fill: var(--muted); font-size: 13px; font-weight: 400; }
+.node .mono { font: 400 12.5px "JetBrains Mono", ui-monospace, Consolas, monospace; fill: #cfcac2; }
+.lbl { fill: var(--accent); font-size: 13px; font-weight: 500; }
+.edge { fill: none; stroke: #4a433b; stroke-width: 2; stroke-dasharray: 6 6; animation: flow 1.2s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -12; } }
+.packets circle { fill: var(--accent); }
+.js .diagram .node { opacity: 0; transform: translateY(14px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.js .diagram.in .node { opacity: 1; transform: none; }
+.js .diagram.in .n2 { transition-delay: .08s; } .js .diagram.in .n3 { transition-delay: .16s; } .js .diagram.in .n4 { transition-delay: .3s; }
+.js .diagram.in .n5 { transition-delay: .4s; } .js .diagram.in .n6 { transition-delay: .48s; } .js .diagram.in .n7 { transition-delay: .56s; } .js .diagram.in .n8 { transition-delay: .64s; }
+.notes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 72px; }
+.notes h3 { font-size: var(--step-lead); font-weight: 500; margin-bottom: 12px; }
+.notes p { font-size: 1rem; }
+
+/* Numbers: big figures that count up once */
+.bs-numbers { padding: 200px var(--m) 0; }
+.counts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px 40px; margin-top: 56px; }
+.counts div { display: grid; align-content: start; gap: 8px; }
+.counts dd { order: -1; }
+.counts dd { font-size: clamp(3.5rem, 8vw, 8rem); line-height: .9; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+.counts dt { font-size: 1rem; max-width: 24ch; }
+
+/* Code */
+.bs-code { display: grid; grid-template-columns: 4fr 7fr; gap: 56px; align-items: center; padding: 200px var(--m) 0; }
+.code-text { display: grid; gap: 20px; }
+.bs-code .code { margin: 0; padding: 22px 26px 26px; min-width: 0; }
+.bs-code .code pre { font-size: 14px; }
+
+/* Screens: a sideways track moved by vertical scroll (bs.js) */
+.bs-screens { margin-top: 200px; }
+.hs-stage { padding: 0 var(--m); }
+.js .hs-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+.bs-screens h2 { margin-bottom: 40px; }
+.hs-track { display: flex; gap: 32px; will-change: transform; }
+.hs-track .win { flex: none; width: min(62vw, 900px); }
+html:not(.js) .hs-track { overflow-x: auto; }
+
+/* Rules */
+.lineup .reveal + .reveal { margin-top: 0; }
+.bs-rules { padding: 0 var(--m) 200px; }
+.bs-rules ul { list-style: none; margin: 48px 0; display: grid; gap: 18px; }
+.bs-rules li { font-size: clamp(1.5rem, 3.2vw, 3rem); line-height: 1.15; letter-spacing: -.035em; }
+.rules-links { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .edge { animation: none; }
+  .packets { display: none; }
+  .js .diagram .node { opacity: 1; transform: none; transition: none; }
+  .names span { transition: none; }
+}
+
+@media (max-width: 900px) {
+  .bs-hero { padding: 110px 20px 0; }
+  .nav { gap: 16px; font-size: 15px; }
+  .nav a:nth-child(2) { display: none; }
+  .bs-head { grid-template-columns: 1fr; }
+  .bs-head h1 { font-size: 17vw; }
+  .tilt { margin-top: 48px; }
+  .win .bar { height: 30px; }
+  .bs-what, .bs-arch, .bs-numbers { padding: 112px 20px 0; }
+  .names { font-size: 9vw; }
+  .arch-head { grid-template-columns: 1fr; gap: 16px; }
+  .arch-head p { justify-self: start; }
+  .d-wide { display: none; }
+  .d-tall { display: block; max-width: 420px; margin: 0 auto; }
+  .notes { grid-template-columns: 1fr; gap: 32px; margin-top: 48px; }
+  .counts { grid-template-columns: 1fr 1fr; gap: 40px 20px; }
+  .counts dd { font-size: 15vw; }
+  .counts dt { font-size: .9375rem; }
+  .bs-code { grid-template-columns: 1fr; gap: 28px; padding: 112px 20px 0; }
+  .bs-code .code { padding: 16px; }
+  .bs-code .code pre { font-size: 12px; }
+  .bs-screens { margin-top: 112px; }
+  .hs-stage { padding: 0 20px; }
+  .hs-track { gap: 16px; }
+  .hs-track .win { width: 84vw; }
+  .bs-rules { padding: 0 20px 112px; }
+  .bs-rules li { font-size: 6.4vw; }
+}
+
+/* the stack follows the pinned gallery, which already leaves room above it */
+#stack { padding-top: 96px; }
