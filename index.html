@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Claudio Di Lecce · Software developer</title>
-  <meta name="description" content="Claudio Di Lecce, software developer in Milan. Desktop apps, AI assistants and web platforms, from idea to release.">
+  <title>Claudio Di Lecce · Software engineer</title>
+  <meta name="description" content="Claudio Di Lecce, senior software engineer and full-stack developer in Milan: Angular, TypeScript, .NET, technical leadership, and products of his own.">
   <meta name="theme-color" content="#0c0a08">
   <link rel="preconnect" href="https://api.fontshare.com">
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -14,12 +14,14 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="reel.css">
+  <link rel="stylesheet" href="profile.css">
   <script>document.documentElement.classList.add('js')</script>
   <script src="home.js" defer></script>
   <script src="code.js" defer></script>
   <script src="shell.js" defer></script>
   <script src="fx.js" defer></script>
   <script src="reel.js" defer></script>
+  <script src="profile.js" defer></script>
 </head>
 <body>
   <header class="top">
@@ -35,7 +37,7 @@
       <div class="intro">
         <h1 class="scramble" aria-label="Claudio Di Lecce"><span aria-hidden="true">Claudio Di Lecce</span><span class="caret" aria-hidden="true"></span></h1>
         <div class="row">
-          <p>Software developer in Milan. More than ten years on web, mobile and desktop, and four products of my own. Scroll to open them.</p>
+          <p>Senior software engineer in Milan. More than ten years on web, mobile and enterprise apps, and five products of my own. Scroll to open them.</p>
           <div class="act">
             <a class="btn" href="#work">See the code</a>
             <a class="link" href="mailto:claudio.dilecce.lavoro@gmail.com">Email me</a>
@@ -48,6 +50,7 @@
           <div class="shot" data-addr="Better Stomp.exe"><img src="img/better-stomp-build.webp" alt="Better Stomp champion page with tier, win rate, runes and matchups"><img src="img/better-stomp-tier-list.webp" alt="Better Stomp tier list by win rate"><img src="img/better-stomp-pick.webp" alt="Better Stomp champion select helper"><img src="img/better-stomp-champions.webp" alt="Better Stomp champion grid"></div>
           <div class="shot tall" data-addr="localhost:5178"><img src="img/reel-fieldbot.webp" alt="FieldBot website, from the WhatsApp chat to the features" loading="lazy"></div>
           <div class="shot tall" data-addr="smartarchivista.it"><img src="img/reel-smartarchivista.webp" alt="SmartArchivista website, scrolling through the product page" loading="lazy"></div>
+          <div class="shot tall" data-addr="/dpp/{uuid}/"><img src="img/reel-open-dpp.webp" alt="Open DPP public passport page of a sample product" loading="lazy"></div>
           <div class="shot" data-addr="127.0.0.1:8765"><img src="img/tcg-profit-lab.webp" alt="TCG Profit Lab search form" loading="lazy"></div>
         </div>
       </div>
@@ -85,6 +88,17 @@
           </dl>
           <a class="link" href="https://www.smartarchivista.it/">smartarchivista.it →</a>
         </article>
+        <article class="info" aria-labelledby="r-open-dpp">
+          <p class="kind">WordPress plugin</p>
+          <h2 id="r-open-dpp">Open DPP</h2>
+          <p class="one">Digital product passports for the EU ecodesign rules, published from any WordPress site.</p>
+          <dl>
+            <div><dt>Stack</dt><dd>PHP · WordPress · REST API · WooCommerce</dd></div>
+            <div><dt>Under the hood</dt><dd>Layered PHP with one serializer for every output, and a QR encoder written from scratch.</dd></div>
+            <div><dt>Status</dt><dd>Version 0.1, in development</dd></div>
+          </dl>
+          <a class="link" href="open-dpp/">Case study →</a>
+        </article>
         <article class="info" aria-labelledby="r-tcg-profit-lab">
           <p class="kind">Local web tool</p>
           <h2 id="r-tcg-profit-lab">TCG Profit Lab</h2>
@@ -97,7 +111,7 @@
           <a class="link" href="#p-tcg-profit-lab">Under the hood ↓</a>
         </article>
       </div>
-      <nav class="reel-nav" aria-label="Projects"><button type="button" data-go="0"><span>Better Stomp</span><i></i></button><button type="button" data-go="1"><span>FieldBot</span><i></i></button><button type="button" data-go="2"><span>SmartArchivista</span><i></i></button><button type="button" data-go="3"><span>TCG Profit Lab</span><i></i></button></nav>
+      <nav class="reel-nav" aria-label="Projects"><button type="button" data-go="0"><span>Better Stomp</span><i></i></button><button type="button" data-go="1"><span>FieldBot</span><i></i></button><button type="button" data-go="2"><span>SmartArchivista</span><i></i></button><button type="button" data-go="3"><span>Open DPP</span><i></i></button><button type="button" data-go="4"><span>TCG Profit Lab</span><i></i></button></nav>
     </div>
   </section>
 
@@ -184,6 +198,25 @@
           <div class="reveal"><a class="link" href="https://www.smartarchivista.it/">smartarchivista.it →</a></div>
         </div>
       </article>
+      <article class="proj" id="p-open-dpp">
+        <div class="src"><figure class="code reveal" data-ui><figcaption>includes/domain/class-passport-data.php</figcaption><pre><code data-lang="php">public static function is_valid_gtin( $gtin ) {
+    if ( ! preg_match( '/^(\d{8}|\d{12}|\d{13}|\d{14})$/', $gtin ) ) {
+        return false;
+    }
+    $digits = array_reverse( str_split( $gtin ) );
+    $sum    = 0;
+    foreach ( array_slice( $digits, 1 ) as $i =&gt; $digit ) {
+        $sum += (int) $digit * ( 0 === $i % 2 ? 3 : 1 );
+    }
+    return ( 10 - $sum % 10 ) % 10 === (int) $digits[0];
+}</code></pre></figure></div>
+        <div class="cluster">
+          <h3 class="reveal">Open DPP</h3>
+          <p class="reveal">Domain rules live in pure PHP that never touches the database, so they are easy to test: validation, completeness and which fields each role may see. A barcode is checked down to its last digit before it is saved, and the QR code is generated by an encoder written for the plugin.</p>
+          <p class="stack reveal">PHP · WordPress · REST API · WooCommerce</p>
+          <div class="reveal"><a class="link" href="open-dpp/">Read the case study →</a></div>
+        </div>
+      </article>
       <article class="proj" id="p-tcg-profit-lab">
         <div class="src"><figure class="code reveal" data-ui><figcaption>app.js</figcaption><pre><code data-lang="js">function profit({ cost, sale, feePct, fixed, ship, qty = 1, targetRoi = 0.3 }) {
   const keep = 1 - feePct / 100;
@@ -206,21 +239,103 @@
     </section>
 
     <section class="about" id="about" aria-labelledby="about-h">
-      <div class="panel">
-        <h2 id="about-h" class="reveal">Ten years in,<br>still shipping.</h2>
-        <!-- shortcut: product screen stands in for a portrait; swap src for a photo of you when you have one -->
-        <img class="shape reveal" src="img/better-stomp-champions.webp" width="1400" height="880" alt="Better Stomp, the app I build in my own time" loading="lazy">
-        <div class="blocks">
-          <div class="reveal">
-            <h3>At SysDat</h3>
-            <p>Software developer at SysDat Spa in Milan, with more than ten years of web and mobile applications behind me: building them, and keeping them running for the people who depend on them.</p>
-          </div>
-          <div class="reveal">
-            <h3>On my own</h3>
-            <p>I take my own products from idea to release: interface, backend, data collection, payments and distribution. I like clean interfaces, real data and software that people actually use.</p>
-          </div>
-          <a class="btn reveal" href="https://www.linkedin.com/in/claudiodilecce/">Full profile on LinkedIn</a>
-        </div>
+      <div class="about-side">
+        <h2 id="about-h" class="reveal">Twelve years of software</h2>
+        <p class="about-lead reveal">Senior software engineer and full-stack developer in Milan. I build web, mobile and enterprise applications, mostly with Angular, TypeScript, .NET and C#, and I have led small teams through them.</p>
+        <p class="reveal">Consulting taught me to walk into a new company, a new domain or a new codebase and become useful quickly. Running two companies of my own taught me the rest: clients, priorities, deadlines and people. What I enjoy most is the place where engineering, technical direction and product meet.</p>
+        <dl class="traits reveal">
+          <div><dt>Technical lead</dt><dd>Team coordination, task planning and mentoring at Gucci and Meedox</dd></div>
+          <div><dt>Many domains</dt><dd>Fashion, healthcare, legal publishing, enterprise data, esports</dd></div>
+          <div><dt>Founder</dt><dd>CEO and CTO of SpawnLab, CEO of Mad Wizard, 2020–2023</dd></div>
+          <div><dt>Languages</dt><dd>Italian, English, French</dd></div>
+        </dl>
+        <a class="btn reveal" href="https://www.linkedin.com/in/claudiodilecce/">Full profile on LinkedIn</a>
+      </div>
+      <div class="career">
+        <h3 class="reveal">Career</h3>
+        <ol class="timeline">
+          <li class="job reveal">
+            <p class="when">2023–now</p>
+            <div>
+              <h4>SYS-DAT Group</h4>
+              <p class="role">Software Engineer</p>
+              <p>Enterprise web applications in Angular and TypeScript: new features, integration with APIs and back-end services, technical analysis and troubleshooting.</p>
+              <p class="tags">Angular · TypeScript · REST APIs</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2020–2023</p>
+            <div>
+              <h4>Adecco</h4>
+              <p class="role">IT Consultant, Technical Lead</p>
+              <p>Consulting for enterprise clients. Technical lead of a small Angular team at Gucci, team coordination and the admin dashboard at Meedox, the KLEOS front end for Wolters Kluwer, .NET and Angular at Chimera, Ionic apps at Argos.</p>
+              <p class="tags">Angular · .NET · Ionic · iOS</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2020–2023</p>
+            <div>
+              <h4>SpawnLab</h4>
+              <p class="role">CEO and CTO</p>
+              <p>My own digital and web company: projects defined and supervised end to end, client relationships, technology choices and coordination of the development work.</p>
+              <p class="tags">Leadership · Product · Clients</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2020–2023</p>
+            <div>
+              <h4>Mad Wizard</h4>
+              <p class="role">CEO</p>
+              <p>A competitive esports organisation: people, partners, competitive operations and the strategy to grow the team.</p>
+              <p class="tags">Organisation · Partnerships</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2020</p>
+            <div>
+              <h4>ISCS</h4>
+              <p class="role">Front-end Developer</p>
+              <p>Web and mobile applications inside Connect Reply.</p>
+              <p class="tags">Web · Mobile</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2017–2018</p>
+            <div>
+              <h4>Betacom</h4>
+              <p class="role">Front-end Developer</p>
+              <p>Development and maintenance across several web application projects.</p>
+              <p class="tags">JavaScript · Front end</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2015–2017</p>
+            <div>
+              <h4>SYDEMA</h4>
+              <p class="role">Analyst and Developer</p>
+              <p>Enterprise web applications focused on data management and processing.</p>
+              <p class="tags">Java · AngularJS · Hibernate · Oracle · DB2</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2014–2016</p>
+            <div>
+              <h4>ALLTECHdesign</h4>
+              <p class="role">Web Developer</p>
+              <p>Websites and online shops for clients.</p>
+              <p class="tags">PHP · WordPress · Joomla · Magento · PrestaShop</p>
+            </div>
+          </li>
+          <li class="job reveal">
+            <p class="when">2009–2014</p>
+            <div>
+              <h4>IIS Curie Sraffa, Milan</h4>
+              <p class="role">Diploma in IT</p>
+              <p>Network systems and software programming.</p>
+              <p class="tags">Education</p>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
@@ -232,32 +347,59 @@
           <tr><th scope="row"><a href="better-stomp/">Better Stomp</a></th><td>Windows app</td><td>Electron, Cloudflare Workers, D1</td><td>Released</td></tr>
           <tr><th scope="row"><a href="https://www.smartarchivista.it/">SmartArchivista</a></th><td>Desktop software and licensing</td><td>PHP, MySQL, Stripe</td><td>Live</td></tr>
           <tr><th scope="row">FieldBot</th><td>AI booking on WhatsApp</td><td>.NET 10, PostgreSQL, Claude</td><td>In development</td></tr>
+          <tr><th scope="row"><a href="open-dpp/">Open DPP</a></th><td>WordPress plugin</td><td>PHP, REST API, WooCommerce</td><td>In development</td></tr>
           <tr><th scope="row">TCG Profit Lab</th><td>Local price tool</td><td>Python, JavaScript</td><td>Personal</td></tr>
         </tbody>
         <tbody class="reveal">
           <tr class="part"><th colspan="4" scope="colgroup">Toolbox</th></tr>
-          <tr><th scope="row">Web</th><td>PHP, JavaScript</td><td>Laravel, React, Vue, WordPress</td><td></td></tr>
-          <tr><th scope="row">Mobile</th><td>Dart, JavaScript</td><td>Flutter, React Native</td><td></td></tr>
-          <tr><th scope="row">Desktop</th><td>JavaScript, C#</td><td>Electron, .NET</td><td></td></tr>
-          <tr><th scope="row">Backend and data</th><td>Node.js, C#, Python</td><td>MySQL, PostgreSQL, Firebase, D1</td><td></td></tr>
-          <tr><th scope="row">AI and services</th><td>Claude API</td><td>WhatsApp Cloud API, Riot API, Stripe</td><td></td></tr>
-          <tr><th scope="row">Shipping</th><td>Docker, Caddy</td><td>Cloudflare Workers, GitHub Pages</td><td></td></tr>
+          <tr><th scope="row">Front end</th><td>Angular, TypeScript</td><td>React, Vue, AngularJS, HTML, CSS</td><td></td></tr>
+          <tr><th scope="row">Back end</th><td>C#, .NET</td><td>ASP.NET Core, Java, Hibernate, PHP, Laravel, Node.js, Python</td><td></td></tr>
+          <tr><th scope="row">Mobile</th><td>Ionic</td><td>Flutter, React Native, iOS push, TestFlight</td><td></td></tr>
+          <tr><th scope="row">Desktop</th><td>Electron</td><td>Windows builds, local APIs, IPC</td><td></td></tr>
+          <tr><th scope="row">Data</th><td>SQL</td><td>PostgreSQL, MySQL, Oracle, DB2, Firebase, D1</td><td></td></tr>
+          <tr><th scope="row">CMS and shops</th><td>WordPress</td><td>Joomla, Magento, PrestaShop</td><td></td></tr>
+          <tr><th scope="row">AI and services</th><td>Claude API</td><td>Tool use, WhatsApp Cloud API, Riot API, Stripe</td><td></td></tr>
+          <tr><th scope="row">Shipping</th><td>Docker</td><td>Cloudflare Workers, Caddy, GitHub Pages</td><td></td></tr>
+          <tr><th scope="row">Way of working</th><td>Technical leadership</td><td>Requirements analysis, planning, mentoring, client relations</td><td></td></tr>
         </tbody>
       </table>
     </section>
 
     <section class="contact" id="contact" aria-labelledby="contact-h">
-      <h2 id="contact-h" class="reveal">Something to build, or a team that needs a developer? Write to me.</h2>
+      <h2 id="contact-h" class="reveal">Have a role or a project?</h2>
+      <div class="contact-grid">
+        <form class="composer reveal" aria-label="Write me an email">
+          <fieldset>
+            <legend>What is it about?</legend>
+            <div class="chips">
+              <label><input type="radio" name="topic" value="A role on your team" checked><span>A role on your team</span></label>
+              <label><input type="radio" name="topic" value="A product to build"><span>A product to build</span></label>
+              <label><input type="radio" name="topic" value="Technical consulting"><span>Technical consulting</span></label>
+              <label><input type="radio" name="topic" value="Something else"><span>Something else</span></label>
+            </div>
+          </fieldset>
+          <label class="field" for="c-name">Your name</label>
+          <input id="c-name" name="name" autocomplete="name" maxlength="80">
+          <label class="field" for="c-msg">Message</label>
+          <textarea id="c-msg" name="message" rows="5" maxlength="2000" placeholder="A few lines on the team, the product or the problem."></textarea>
+          <div class="send"><button class="btn" type="submit">Open it in my email app</button><p class="hint">Nothing is sent from this page: your email app opens with the message ready.</p></div>
+        </form>
+        <dl class="details reveal">
+          <div><dt>Email</dt><dd><a href="mailto:claudio.dilecce.lavoro@gmail.com">claudio.dilecce.lavoro@gmail.com</a> <button class="copy" type="button" data-copy="claudio.dilecce.lavoro@gmail.com">Copy</button></dd></div>
+          <div><dt>Based in</dt><dd>Greater Milan area, Italy · <span class="clock" aria-live="off">local time</span></dd></div>
+          <div><dt>Open to</dt><dd>Senior and lead roles where engineering, technical direction and product meet; product work on web, AI and desktop.</dd></div>
+          <div><dt>Languages</dt><dd>Italian, English, French</dd></div>
+          <div><dt>Elsewhere</dt><dd><a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a> · <a href="https://github.com/ClaudioneCode">GitHub</a></dd></div>
+        </dl>
+      </div>
       <a class="mail reveal" href="mailto:claudio.dilecce.lavoro@gmail.com">claudio.dilecce.lavoro@<wbr>gmail.com</a>
-      <p class="c-left">Milan, Italy</p>
-      <p class="c-right"><a href="https://github.com/ClaudioneCode">GitHub</a><a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a></p>
     </section>
   </main>
 
   <footer class="foot">
     <div class="cols">
-      <ul><li>Claudio Di Lecce</li><li>Software developer</li><li>Milan, Italy</li></ul>
-      <ul><li>Work</li><li><a href="better-stomp/">Better Stomp</a></li><li><a href="https://www.smartarchivista.it/">SmartArchivista</a></li><li><a href="#p-fieldbot">FieldBot</a></li></ul>
+      <ul><li>Claudio Di Lecce</li><li>Senior software engineer</li><li>Milan, Italy</li></ul>
+      <ul><li>Work</li><li><a href="better-stomp/">Better Stomp</a></li><li><a href="https://www.smartarchivista.it/">SmartArchivista</a></li><li><a href="#p-fieldbot">FieldBot</a></li><li><a href="open-dpp/">Open DPP</a></li></ul>
       <ul><li>Elsewhere</li><li><a href="https://github.com/ClaudioneCode">GitHub</a></li><li><a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a></li><li><a href="mailto:claudio.dilecce.lavoro@gmail.com">Email</a></li></ul>
       <ul><li>Better Stomp</li><li><a href="better-stomp/privacy.html">Privacy policy</a></li><li><a href="better-stomp/terms.html">Terms of use</a></li></ul>
     </div>

@@ -6,15 +6,17 @@ const GLYPHS = '!<>-_\\/[]{}=+*^?#01';
 // Each letter cycles through glyphs and settles left to right.
 function scramble(el, duration = 900) {
   if (still || el.dataset.busy) return;
-  const target = el.dataset.text ??= el.textContent;
+  el.dataset.text ??= el.textContent;
   el.dataset.busy = '1';
   const start = performance.now();
   const frame = (now) => {
     const t = Math.min((now - start) / duration, 1);
+    // read the target every frame: it can change mid-animation (the reel's address bar)
+    const target = el.dataset.text;
     const settled = Math.floor(t * target.length);
     el.textContent = [...target].map((c, i) => (i < settled || c === ' ' ? c : GLYPHS[(Math.random() * GLYPHS.length) | 0])).join('');
     if (t < 1) requestAnimationFrame(frame);
-    else { el.textContent = target; delete el.dataset.busy; }
+    else { el.textContent = el.dataset.text; delete el.dataset.busy; }
   };
   requestAnimationFrame(frame);
 }

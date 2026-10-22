@@ -95,14 +95,6 @@ h1, h2, h3 { font-weight: 400; letter-spacing: -.03em; line-height: 1.1; }
 .caret { display: inline-block; width: .08em; height: .8em; margin-left: .08em; background: var(--accent); vertical-align: baseline; animation: blink 1.1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* About: inset panel */
-.about { padding: 200px 20px 0; }
-.panel { position: relative; overflow: hidden; background: var(--surface); min-height: 110svh; display: grid; grid-template-columns: 63fr 37fr; padding: 56px; }
-.panel h2 { font-size: var(--step-head); grid-column: 1; }
-.shape { position: absolute; left: 56px; bottom: -9vw; width: 38vw; aspect-ratio: 1; object-fit: cover; object-position: 0 0; border-radius: 50% 50% 0 0; }
-.blocks { grid-column: 2; grid-row: 1 / span 2; display: grid; align-content: start; gap: 64px; max-width: 340px; }
-.blocks h3 { font-size: var(--step-lead); margin-bottom: 12px; }
-.blocks .btn { justify-self: start; }
 
 /* List: one type size */
 .lineup { padding: 200px var(--m); }
@@ -117,14 +109,6 @@ h1, h2, h3 { font-weight: 400; letter-spacing: -.03em; line-height: 1.1; }
 .lineup a { text-decoration: none; transition: color .2s; }
 .lineup a:hover { color: var(--accent); }
 
-/* Contact: the email as display type, inverse colours */
-.contact { position: relative; min-height: 100svh; background: var(--light); color: var(--bg); padding: 40px var(--m); display: grid; grid-template-rows: auto 1fr auto auto; }
-.contact h2 { font-size: var(--step-lead); max-width: 34ch; font-weight: 500; letter-spacing: -.01em; }
-.mail { grid-row: 3; align-self: end; margin-bottom: 9vh; font-size: var(--step-display); line-height: .95; letter-spacing: -.045em; text-decoration: none; overflow-wrap: anywhere; transition: color .3s; }
-.mail:hover { color: #8a6a2c; }
-.c-left, .c-right { grid-row: 4; font-size: var(--step-small); font-weight: 500; }
-.c-right { justify-self: end; display: flex; gap: 24px; margin-top: -1.5em; }
-.c-right a { padding: 10px 0; }
 
 /* Footer: columns above, wordmark below */
 .foot { padding: 40px var(--m) 24px; display: grid; gap: 22svh; }
@@ -163,11 +147,6 @@ h1, h2, h3 { font-weight: 400; letter-spacing: -.03em; line-height: 1.1; }
   .src .code pre { font-size: 12px; }
   .cluster h3 { font-size: 8vw; }
   .cluster .link { display: inline-block; padding: 12px 0; }
-  .about { padding: 112px 10px 0; }
-  .panel { grid-template-columns: 1fr; padding: 32px 20px 0; min-height: 0; }
-  .panel h2 { font-size: 8.5vw; margin-bottom: 40px; }
-  .blocks { grid-column: 1; grid-row: auto; max-width: none; gap: 40px; }
-  .shape { position: relative; left: auto; bottom: auto; order: 3; width: 86vw; margin: 56px auto -21vw; }
   .lineup { padding: 112px 20px; }
   .lineup h2 { padding: 0; }
   .lineup table, .lineup tbody, .lineup tr { display: block; }
@@ -179,10 +158,6 @@ h1, h2, h3 { font-weight: 400; letter-spacing: -.03em; line-height: 1.1; }
   .lineup td:empty { display: none; }
   .lineup .part { display: block; position: sticky; top: 0; background: var(--bg); margin: 0; z-index: 1; }
   .lineup .part th { display: block; font-size: 22px; padding: 48px 0 12px; }
-  .contact { min-height: 0; padding: 32px 20px; grid-template-rows: auto auto auto auto; }
-  .mail { grid-row: 2; font-size: 11.5vw; margin: 16svh 0 24px; }
-  .c-left { grid-row: 3; } .c-right { grid-row: 4; }
-  .c-left, .c-right { grid-row: auto; justify-self: start; margin-top: 0; flex-direction: column; gap: 0; font-size: 15px; }
 
   .cols { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
   .foot { padding: 32px 20px 24px; gap: 14svh; }

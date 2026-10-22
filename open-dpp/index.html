@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open DPP · Case study</title>
+  <meta name="description" content="Open DPP, a WordPress plugin for digital product passports: layered PHP architecture, a QR encoder of its own, read-only REST API, tested end to end.">
+  <meta name="theme-color" content="#0c0a08">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../home.css">
+  <link rel="stylesheet" href="../case.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../home.js" defer></script>
+  <script src="../code.js" defer></script>
+  <script src="../fx.js" defer></script>
+  <script src="../case.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="name" href="../">← ClaudioneCode</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#architecture">Architecture</a><a href="#numbers">Numbers</a><a href="#stack">Stack</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="bs-hero" aria-labelledby="dpp-title">
+      <div class="bs-head">
+        <h1 id="dpp-title" class="scramble" aria-label="Open DPP"><span aria-hidden="true">Open DPP</span><span class="caret" aria-hidden="true"></span></h1>
+        <p class="bs-lead">A WordPress plugin for digital product passports, the record that EU ecodesign rules will ask many products to carry. It runs inside any WordPress site, with no external service behind it.</p>
+        <dl class="facts">
+          <div><dt>Role</dt><dd>Design, code, testing</dd></div>
+          <div><dt>Platform</dt><dd>WordPress 6.5+, PHP 7.4+</dd></div>
+          <div><dt>Core</dt><dd>PHP · REST API · Gutenberg</dd></div>
+          <div><dt>Status</dt><dd>Version 0.1, in development</dd></div>
+          <div class="go"><a class="btn" href="#architecture">See the architecture</a></div>
+        </dl>
+      </div>
+      <figure class="win tilt" data-ui>
+        <div class="bar"><i></i><i></i><i></i><span class="addr">wp-admin · Edit passport</span></div>
+        <img src="../img/open-dpp-editor.webp" width="1400" height="880" alt="The passport editor: data sections on the left, completeness, permanent identifier and QR code on the right">
+      </figure>
+    </section>
+
+    <section class="bs-what" aria-labelledby="what-h">
+      <h2 id="what-h" class="reveal">Six parts, one plugin</h2>
+      <p class="names" aria-label="Passport editor, public page, QR codes, import and export, read-only API, WooCommerce">
+        <span>Passport editor</span> <span>·</span> <span>Public page</span> <span>·</span> <span>QR codes</span> <span>·</span> <span>Import and export</span> <span>·</span> <span>Read-only API</span> <span>·</span> <span>WooCommerce</span>
+      </p>
+      <p class="what-note reveal">It gives teams the tools to publish a passport. It does not certify products or speak for the law. The interesting part is how it is built.</p>
+    </section>
+
+    <section class="bs-arch" id="architecture" aria-labelledby="arch-h">
+      <div class="arch-head reveal">
+        <h2 id="arch-h">Architecture</h2>
+        <p>Strict layers inside one WordPress plugin: pure domain logic, persistence, and a single serializer that every output goes through.</p>
+      </div>
+      <figure class="diagram reveal" aria-label="Architecture diagram: the admin editor and CSV or JSON import feed the domain layer, which validates data and decides visibility; passports are stored as a custom post type with a history table; one serializer produces the public page, the REST API, exports, the block and the QR code.">
+        <svg class="d-wide" viewBox="0 0 1200 560" aria-hidden="true">
+          <rect class="zone" x="0" y="0" width="1200" height="560" rx="14"/>
+          <text class="zone-t" x="28" y="40">Inside the WordPress site · no calls to external services</text>
+
+          <path id="o1" class="edge" d="M210 150 C 245 150, 235 230, 270 230"/>
+          <path id="o2" class="edge" d="M210 420 C 245 420, 235 330, 270 330"/>
+          <path id="o3" class="edge" d="M500 250 C 530 250, 530 200, 560 200"/>
+          <path id="o4" class="edge" d="M650 250 L 650 360"/>
+          <path id="o5" class="edge" d="M740 200 C 770 200, 770 280, 800 280"/>
+          <path id="o6" class="edge" d="M960 270 C 985 270, 985 105, 1010 105"/>
+          <path id="o7" class="edge" d="M960 275 C 985 275, 985 195, 1010 195"/>
+          <path id="o8" class="edge" d="M960 280 L 1010 285"/>
+          <path id="o9" class="edge" d="M960 285 C 985 285, 985 375, 1010 375"/>
+          <path id="o10" class="edge" d="M960 290 C 985 290, 985 465, 1010 465"/>
+
+          <g class="node n1"><rect x="30" y="110" width="180" height="80" rx="8"/><text x="48" y="145">Admin editor</text><text class="sub" x="48" y="170">roles · explicit save</text></g>
+          <g class="node n2"><rect x="30" y="380" width="180" height="80" rx="8"/><text x="48" y="415">CSV / JSON import</text><text class="sub" x="48" y="440">preview, then confirm</text></g>
+          <g class="node n3 hub"><rect x="270" y="150" width="230" height="230" rx="10"/><text x="292" y="186">Domain</text><text class="sub" x="292" y="210">pure PHP, no database</text>
+            <rect class="lane" x="292" y="228" width="186" height="36" rx="6"/><text class="mono" x="306" y="251">sanitize · validate</text>
+            <rect class="lane" x="292" y="272" width="186" height="36" rx="6"/><text class="mono" x="306" y="295">completeness</text>
+            <rect class="lane" x="292" y="316" width="186" height="36" rx="6"/><text class="mono" x="306" y="339">visibility rules</text></g>
+          <g class="node n4"><rect x="560" y="150" width="180" height="100" rx="8"/><text x="578" y="185">Passports</text><text class="sub" x="578" y="210">custom post type</text><text class="sub" x="578" y="232">UUID as permanent slug</text></g>
+          <g class="node n5"><rect x="560" y="360" width="180" height="80" rx="8"/><text x="578" y="395">History</text><text class="sub" x="578" y="420">keys changed, never values</text></g>
+          <g class="node n6 hub"><rect x="800" y="220" width="160" height="120" rx="10"/><text x="820" y="256">Serializer</text><text class="mono" x="820" y="286">one view</text><text class="mono" x="820" y="310">per role</text></g>
+          <g class="node n7"><rect x="1010" y="70" width="170" height="70" rx="8"/><text x="1026" y="100">Public page</text><text class="sub" x="1026" y="122">/dpp/{uuid}/</text></g>
+          <g class="node n7"><rect x="1010" y="160" width="170" height="70" rx="8"/><text x="1026" y="190">REST API</text><text class="sub" x="1026" y="212">odpp/v1 · read-only</text></g>
+          <g class="node n8"><rect x="1010" y="250" width="170" height="70" rx="8"/><text x="1026" y="280">Export</text><text class="sub" x="1026" y="302">CSV · JSON</text></g>
+          <g class="node n8"><rect x="1010" y="340" width="170" height="70" rx="8"/><text x="1026" y="370">Block</text><text class="sub" x="1026" y="392">and shortcode</text></g>
+          <g class="node n8"><rect x="1010" y="430" width="170" height="70" rx="8"/><text x="1026" y="460">QR code</text><text class="sub" x="1026" y="482">own encoder · SVG</text></g>
+
+          <g class="packets">
+            <circle r="4"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#o1"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="2.2s" begin=".9s" repeatCount="indefinite"><mpath href="#o2"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#o3"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.6s" begin=".5s" repeatCount="indefinite"><mpath href="#o4"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.4s" begin=".3s" repeatCount="indefinite"><mpath href="#o5"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#o6"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.8s" begin=".35s" repeatCount="indefinite"><mpath href="#o7"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.8s" begin=".7s" repeatCount="indefinite"><mpath href="#o8"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.8s" begin="1.05s" repeatCount="indefinite"><mpath href="#o9"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.8s" begin="1.4s" repeatCount="indefinite"><mpath href="#o10"/></animateMotion></circle>
+          </g>
+        </svg>
+        <svg class="d-tall" viewBox="0 0 360 930" aria-hidden="true">
+          <rect class="zone" x="0" y="0" width="360" height="930" rx="12"/>
+          <text class="zone-t" x="18" y="32">Inside WordPress · no external calls</text>
+          <path id="u1" class="edge" d="M95 124 L 95 170"/>
+          <path id="u2" class="edge" d="M265 124 L 265 170"/>
+          <path id="u3" class="edge" d="M110 330 L 95 380"/>
+          <path id="u4" class="edge" d="M174 415 L 186 415"/>
+          <path id="u5" class="edge" d="M95 460 L 150 520"/>
+          <path id="u6" class="edge" d="M140 610 L 95 660"/>
+          <path id="u7" class="edge" d="M220 610 L 265 660"/>
+          <path id="u8" class="edge" d="M180 610 L 180 820"/>
+          <g class="node"><rect x="16" y="52" width="158" height="72" rx="8"/><text x="30" y="84">Admin editor</text><text class="sub" x="30" y="106">explicit save</text></g>
+          <g class="node"><rect x="186" y="52" width="158" height="72" rx="8"/><text x="200" y="84">Import</text><text class="sub" x="200" y="106">CSV · JSON</text></g>
+          <g class="node hub"><rect x="40" y="170" width="280" height="160" rx="10"/><text x="60" y="204">Domain</text><text class="mono" x="60" y="236">sanitize · validate</text><text class="mono" x="60" y="262">completeness</text><text class="mono" x="60" y="288">visibility rules</text><text class="sub" x="60" y="314">pure PHP, no database</text></g>
+          <g class="node"><rect x="16" y="380" width="158" height="80" rx="8"/><text x="30" y="412">Passports</text><text class="sub" x="30" y="436">UUID permanent slug</text></g>
+          <g class="node"><rect x="186" y="380" width="158" height="80" rx="8"/><text x="200" y="412">History</text><text class="sub" x="200" y="436">keys, never values</text></g>
+          <g class="node hub"><rect x="70" y="520" width="220" height="90" rx="10"/><text x="90" y="554">Serializer</text><text class="mono" x="90" y="584">one view per role</text></g>
+          <g class="node"><rect x="16" y="660" width="158" height="70" rx="8"/><text x="30" y="690">Public page</text><text class="sub" x="30" y="712">/dpp/{uuid}/</text></g>
+          <g class="node"><rect x="186" y="660" width="158" height="70" rx="8"/><text x="200" y="690">REST API</text><text class="sub" x="200" y="712">read-only</text></g>
+          <g class="node"><rect x="16" y="820" width="100" height="70" rx="8"/><text x="28" y="850">Export</text><text class="sub" x="28" y="872">CSV · JSON</text></g>
+          <g class="node"><rect x="130" y="820" width="100" height="70" rx="8"/><text x="142" y="850">QR</text><text class="sub" x="142" y="872">own encoder</text></g>
+          <g class="node"><rect x="244" y="820" width="100" height="70" rx="8"/><text x="256" y="850">Block</text><text class="sub" x="256" y="872">shortcode</text></g>
+          <g class="packets">
+            <circle r="4"><animateMotion dur="1.3s" repeatCount="indefinite"><mpath href="#u1"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.3s" begin=".6s" repeatCount="indefinite"><mpath href="#u2"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.2s" repeatCount="indefinite"><mpath href="#u3"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.2s" begin=".4s" repeatCount="indefinite"><mpath href="#u5"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.2s" begin=".2s" repeatCount="indefinite"><mpath href="#u6"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.2s" begin=".6s" repeatCount="indefinite"><mpath href="#u7"/></animateMotion></circle>
+            <circle r="4"><animateMotion dur="1.8s" begin=".9s" repeatCount="indefinite"><mpath href="#u8"/></animateMotion></circle>
+          </g>
+        </svg>
+      </figure>
+      <div class="notes">
+        <div class="reveal"><h3>One rule for visibility</h3><p>Every field is public, restricted or internal. The rule lives in one place, and the public page, the API and every export go through the same serializer, so nothing leaks through a side door.</p></div>
+        <div class="reveal"><h3>Addresses that never move</h3><p>Each passport gets a UUID that becomes its permanent address. A QR code printed on a box today still opens the right page after edits, renames or archiving.</p></div>
+        <div class="reveal"><h3>A QR encoder of its own</h3><p>No third-party library and no remote service: the encoder follows the QR standard in plain PHP, including Reed-Solomon error correction, and is checked against an independent decoder.</p></div>
+        <div class="reveal"><h3>Least privilege</h3><p>Dedicated roles for editors, managers and authorised viewers. The REST API is read-only, drafts never reach the default WordPress endpoints, and the history keeps which fields changed, not their values.</p></div>
+      </div>
+    </section>
+
+    <section class="bs-numbers" id="numbers" aria-labelledby="num-h">
+      <h2 id="num-h" class="reveal">By the numbers</h2>
+      <dl class="counts">
+        <div class="reveal"><dt>end-to-end checks passing</dt><dd><span data-count="43">43</span></dd></div>
+        <div class="reveal"><dt>HTTP checks, CSRF included</dt><dd><span data-count="23">23</span></dd></div>
+        <div class="reveal"><dt>accessibility violations, WCAG 2.2 AA</dt><dd><span data-count="0">0</span></dd></div>
+        <div class="reveal"><dt>QR test cases read by an independent decoder</dt><dd><span data-count="7">7</span>/7</dd></div>
+        <div class="reveal"><dt>calls to external services</dt><dd><span data-count="0">0</span></dd></div>
+        <div class="reveal"><dt>lines of PHP, layered</dt><dd><span data-count="5.2" data-dec="1">5.2</span>k</dd></div>
+      </dl>
+    </section>
+
+    <section class="bs-code" aria-labelledby="code-h">
+      <div class="code-text">
+        <h2 id="code-h" class="reveal">Error correction, by hand</h2>
+        <p class="reveal">A QR code survives scratches because of Reed-Solomon codes. This is the step that computes the error-correction bytes: polynomial division over a finite field, written directly in PHP so the plugin needs nothing from outside.</p>
+        <p class="stack reveal">includes/qr/class-qr-code.php · PHP 7.4+</p>
+      </div>
+      <figure class="code reveal" data-ui><figcaption>includes/qr/class-qr-code.php</figcaption><pre><code data-lang="php">private function rs_remainder( array $data, array $generator ) {
+    $degree = count( $generator ) - 1;
+    $rem    = array_fill( 0, $degree, 0 );
+    foreach ( $data as $byte ) {
+        $factor = $byte ^ $rem[0];
+        array_shift( $rem );
+        $rem[] = 0;
+        for ( $j = 0; $j &lt; $degree; $j++ ) {
+            $rem[ $j ] ^= self::gf_mul( $generator[ $j + 1 ], $factor );
+        }
+    }
+    return $rem;
+}</code></pre></figure>
+    </section>
+
+    <section class="bs-screens" aria-labelledby="screens-h">
+      <div class="hs-stage">
+        <h2 id="screens-h">Inside the plugin</h2>
+        <div class="hs-track">
+          <figure class="win" data-ui><div class="bar"><i></i><i></i><i></i><span class="addr">/dpp/{uuid}/</span></div><img src="../img/open-dpp-public.webp" width="1400" height="880" alt="Public passport page of a sample product with identifiers and data sections" loading="lazy"></figure>
+          <figure class="win" data-ui><div class="bar"><i></i><i></i><i></i><span class="addr">Edit passport</span></div><img src="../img/open-dpp-editor.webp" width="1400" height="880" alt="Passport editor with completeness and QR code" loading="lazy"></figure>
+          <figure class="win" data-ui><div class="bar"><i></i><i></i><i></i><span class="addr">Import / export</span></div><img src="../img/open-dpp-import.webp" width="1400" height="880" alt="Import and export screen with format and field options" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="lineup" id="stack" aria-labelledby="stack-h">
+      <h2 id="stack-h" class="reveal">Stack</h2>
+      <table>
+        <tbody class="reveal">
+          <tr><th scope="row">Platform</th><td>WordPress 6.5+</td><td>PHP 7.4 to 8.3</td><td>Tested on 6.8 and 7.1</td></tr>
+          <tr><th scope="row">Data</th><td>Custom post type</td><td>Structured meta, own history table</td><td>UUID v4</td></tr>
+          <tr><th scope="row">Front end</th><td>Gutenberg block</td><td>No build step, standalone template</td><td>Printable</td></tr>
+          <tr><th scope="row">API</th><td>REST odpp/v1</td><td>Filtered by role</td><td>Read-only</td></tr>
+          <tr><th scope="row">Integrations</th><td>WooCommerce</td><td>Optional link from products</td><td>Optional</td></tr>
+          <tr><th scope="row">Quality</th><td>PHPCS</td><td>WordPress and PHP compatibility rules, axe-core</td><td>0 errors</td></tr>
+          <tr><th scope="row">Languages</th><td>English, Italian</td><td>Translations for PHP and the block</td><td>i18n</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="bs-rules" aria-labelledby="rules-h">
+      <h2 id="rules-h" class="reveal">Rules it plays by</h2>
+      <ul>
+        <li class="reveal">Tools, not compliance: it never claims to certify a product.</li>
+        <li class="reveal">Everything runs locally, with no calls to external services.</li>
+        <li class="reveal">Passports stay available: archiving keeps them public, uninstalling keeps the data.</li>
+        <li class="reveal">Personal data kept to a minimum, with export and erase built in.</li>
+      </ul>
+      <p class="rules-links reveal"><a class="btn" href="mailto:claudio.dilecce.lavoro@gmail.com?subject=Open%20DPP">Write to me</a></p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="cols">
+      <ul><li>Open DPP</li><li>Digital product passports</li><li>for WordPress</li></ul>
+      <ul><li>Case studies</li><li><a href="../better-stomp/">Better Stomp</a></li><li><a href="./">Open DPP</a></li></ul>
+      <ul><li>Portfolio</li><li><a href="../">Home</a></li><li><a href="../#work">Under the hood</a></li><li><a href="../#contact">Contact</a></li></ul>
+      <ul><li>Elsewhere</li><li><a href="https://github.com/ClaudioneCode">GitHub</a></li><li><a href="https://www.linkedin.com/in/claudiodilecce/">LinkedIn</a></li><li><a href="mailto:claudio.dilecce.lavoro@gmail.com">Email</a></li></ul>
+    </div>
+    <svg class="wordmark" viewBox="0 0 1000 150" role="img" aria-label="Open DPP"><text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs">Open DPP</text></svg>
+    <p class="legal">Open DPP is a software tool. It does not certify products, does not guarantee legal compliance and is not connected to the EU registry. Sample data in the screenshots belongs to a fictitious brand.</p>
+  </footer>
+</body>
+</html>

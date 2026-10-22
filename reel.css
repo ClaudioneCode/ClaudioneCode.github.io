@@ -38,7 +38,7 @@
 .info dd { font-size: 1rem; line-height: 1.45; }
 
 /* Progress: one bar per project, filled by the scroll; a click jumps there */
-.reel-nav { position: absolute; z-index: 2; left: var(--m); right: var(--m); bottom: 26px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.reel-nav { position: absolute; z-index: 2; left: var(--m); right: var(--m); bottom: 26px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
 .reel-nav button { display: grid; gap: 10px; text-align: left; background: none; border: 0; color: var(--muted); font: 500 var(--step-small)/1 "Switzer", sans-serif; padding: 10px 0; cursor: pointer; transition: color .25s; }
 .reel-nav button:hover, .reel-nav button[aria-current] { color: var(--ink); }
 .reel-nav i { display: block; height: 3px; background: var(--surface); }

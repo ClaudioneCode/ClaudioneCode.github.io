@@ -1,4 +1,4 @@
-/* Better Stomp case study: builds on ../home.css (tokens, top bar, code, table, footer, entrances) */
+/* Case study pages (Better Stomp, Open DPP): builds on home.css (tokens, top bar, code, table, footer, entrances) */
 .kind { color: var(--accent); font-weight: 500; font-size: var(--step-small); }
 
 /* A window frame around app screens */

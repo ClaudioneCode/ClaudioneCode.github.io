@@ -1,0 +1,76 @@
+/* About and contact (profile.js) */
+
+/* About: the summary stays in view on the left while the career runs past on the right */
+.about { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: start; padding: 200px var(--m) 0; }
+.about-side { position: sticky; top: 96px; display: grid; gap: 22px; }
+.about h2 { font-size: var(--step-head); line-height: 1; }
+.about-lead { font-size: var(--step-lead); line-height: 1.35; }
+.about-side > p:not(.about-lead) { color: #cfcac2; max-width: 52ch; }
+.traits { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px; margin: 10px 0 6px; }
+.traits dt { color: var(--accent); font-weight: 500; font-size: var(--step-small); }
+.traits dd { font-size: .9375rem; line-height: 1.45; }
+.about-side .btn { justify-self: start; }
+
+.career h3 { font-size: var(--step-mid); font-weight: 500; margin-bottom: 32px; }
+.timeline { list-style: none; position: relative; padding-left: 28px; }
+/* the track, and its fill driven by the scroll (--fill from profile.js) */
+.timeline::before, .timeline::after { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; background: var(--surface); }
+.timeline::after { background: var(--accent); transform-origin: 0 0; transform: scaleY(var(--fill, 0)); }
+.job { position: relative; display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: 22px 26px; margin-bottom: 14px; background: transparent; transition: background-color .5s var(--ease); }
+.job::before { content: ""; position: absolute; left: -33px; top: 30px; width: 13px; height: 13px; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 3px #3a352f; transition: box-shadow .4s, background-color .4s; } /* taste-skill-ignore: a ring marker, not a shadow */
+.job.now { background: var(--surface); }
+.job.now::before, .job.past::before { background: var(--accent); box-shadow: inset 0 0 0 3px var(--accent); } /* taste-skill-ignore */
+.when { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 500; padding-top: 3px; }
+.job.now .when { color: var(--accent); }
+.job h4 { font-size: var(--step-lead); font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
+.role { color: var(--accent); font-weight: 500; font-size: var(--step-small); margin: 4px 0 10px; }
+.job p:not(.when):not(.role):not(.tags) { font-size: 1rem; color: #cfcac2; }
+.tags { margin-top: 10px; color: var(--muted); font-size: var(--step-small); font-weight: 500; }
+
+/* Contact: a light field with a composer, the details, and the address as a signature */
+.contact { background: var(--light); color: var(--bg); padding: 120px var(--m) 72px; }
+.contact h2 { font-size: var(--step-head); line-height: 1; max-width: 16ch; }
+.contact-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 72px; margin-top: 64px; align-items: start; }
+.composer { display: grid; gap: 10px; }
+.composer fieldset { border: 0; margin-bottom: 18px; }
+.composer legend, .field { font-weight: 500; font-size: var(--step-small); color: #5c564f; margin-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chips input { position: absolute; opacity: 0; pointer-events: none; }
+.chips span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; background: #cfcbc4; font-weight: 500; cursor: pointer; transition: background-color .2s, color .2s, transform .2s var(--ease); }
+.chips span:hover { transform: translateY(-2px); }
+.chips input:checked + span { background: var(--bg); color: var(--light); }
+.chips input:focus-visible + span { outline: 2px solid var(--bg); outline-offset: 3px; }
+.composer input:not([type=radio]), .composer textarea { width: 100%; font: inherit; color: var(--bg); background: #ebe8e3; border: 0; border-bottom: 2px solid #b9b3aa; padding: 14px 16px; margin-bottom: 14px; resize: vertical; transition: border-color .2s, background-color .2s; }
+.composer input:not([type=radio]):focus, .composer textarea:focus { outline: none; border-bottom-color: var(--bg); background: #f4f2ef; }
+.send { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 24px; margin-top: 6px; }
+.contact .btn { background: var(--bg); color: var(--light); }
+.contact .btn:hover { background: #8a6a2c; color: #fff; }
+.hint { font-size: var(--step-small); color: #5c564f; max-width: 38ch; }
+.details { display: grid; gap: 26px; }
+.details dt { font-size: var(--step-small); font-weight: 500; color: #5c564f; margin-bottom: 4px; }
+.details dd { font-size: 1.0625rem; line-height: 1.45; }
+.details a { text-decoration: underline; text-underline-offset: .2em; text-decoration-color: #8a6a2c; }
+.details a:hover { color: #8a6a2c; }
+.copy { margin-left: 8px; min-height: 32px; padding: 0 12px; border: 0; background: var(--bg); color: var(--light); font: 500 13px/1 "Switzer", sans-serif; cursor: pointer; transition: background-color .2s; }
+.copy:hover { background: #8a6a2c; }
+.clock { font-variant-numeric: tabular-nums; }
+.mail { display: block; margin-top: 96px; font-size: clamp(2rem, 6.6vw, 7rem); line-height: .95; letter-spacing: -.045em; text-decoration: none; overflow-wrap: anywhere; transition: color .3s; }
+.mail:hover { color: #8a6a2c; }
+
+@media (prefers-reduced-motion: reduce) {
+  .job, .job::before, .chips span { transition: none; }
+}
+
+@media (max-width: 900px) {
+  .about { grid-template-columns: 1fr; gap: 64px; padding: 112px 20px 0; }
+  .about-side { position: static; }
+  .about h2 { font-size: 10vw; }
+  .traits { grid-template-columns: 1fr; }
+  .timeline { padding-left: 22px; }
+  .job { grid-template-columns: 1fr; gap: 6px; padding: 16px 16px 18px; }
+  .job::before { left: -27px; top: 22px; }
+  .contact { padding: 96px 20px 56px; }
+  .contact h2 { font-size: 10vw; }
+  .contact-grid { grid-template-columns: 1fr; gap: 56px; margin-top: 40px; }
+  .mail { margin-top: 64px; font-size: 8.6vw; }
+}

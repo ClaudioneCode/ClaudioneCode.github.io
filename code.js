@@ -3,7 +3,7 @@
 const KEYWORDS = {
   js: 'export function const let return if continue for of new await async true false null',
   cs: 'public private async await string var new return Task default switch',
-  php: 'function string int void if return array',
+  php: 'function string int void if return array foreach as private public static self',
 };
 const TOKEN = /(\/\/.*$)|('(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|`(?:\\.|[^`\\])*`)|(\$\w+)|(\b\d+(?:\.\d+)?\b)|(\b[A-Za-z_]\w*\b)(?=\s*\()|(\b[A-Za-z_]\w*\b)/gm;
 
